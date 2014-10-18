@@ -4,7 +4,7 @@ using System.Collections;
 public class flashlightMechanic : MonoBehaviour {
 	public int PlayerId = 1;
 	public Light flashLight;
-	public bool isLightOn;
+	public bool isLightOn = true;
 	bool Held = false;
 	// Use this for initialization
 	void Start () {
