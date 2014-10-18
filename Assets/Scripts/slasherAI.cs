@@ -11,6 +11,7 @@ public class slasherAI : MonoBehaviour {
 	void Start () {
 		victims = GameObject.FindGameObjectsWithTag("Player");
 		closestVictim = victims[Random.Range(0,victims.Length)].transform;
+		StartCoroutine(getVictims());
 	}
 	
 	// Update is called once per frame
@@ -18,5 +19,14 @@ public class slasherAI : MonoBehaviour {
 		if(!isPursuing){
 			GetComponent<NavMeshAgent>().SetDestination(closestVictim.position);
 		}
+	}
+
+	IEnumerator getVictims(){
+		foreach(GameObject victim in victims){
+			if(Vector3.Distance(transform.position,victim.transform.position)<Vector3.Distance(transform.position,closestVictim.position)){
+				closestVictim = victim.transform;
+			}
+		}
+		yield return new WaitForSeconds(30);
 	}
 }
