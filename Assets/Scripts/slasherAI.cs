@@ -52,4 +52,9 @@ public class slasherAI : MonoBehaviour {
 		}
 		Teleport (Random.Range(0,waypoints.Length));
 	}
+	void OnTriggerEnter(Collider other)
+	{
+		if(other.CompareTag("Slasher"))
+			Destroy (gameObject);
+	}
 }
