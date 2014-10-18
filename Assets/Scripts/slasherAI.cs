@@ -3,30 +3,34 @@ using System.Collections;
 
 public class slasherAI : MonoBehaviour {
 
-	public GameObject[] victims;
-	public Transform closestVictim;
-	public bool isPursuing;
+	public GameObject[] waypoints;
+	public Transform currentWaypoint;
+	bool isRoaming;
+	bool isChasing;
+	bool isTeleporting;
+	int behaviorTimer;
 
 	// Use this for initialization
 	void Start () {
-		victims = GameObject.FindGameObjectsWithTag("Player");
-		closestVictim = victims[Random.Range(0,victims.Length)].transform;
-		StartCoroutine(getVictims());
+		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+		getWaypoint();
+		isRoaming = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(!isPursuing){
-			GetComponent<NavMeshAgent>().SetDestination(closestVictim.position);
+		if(isRoaming){
+			if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
+				getWaypoint();
+			}
+			GetComponent<NavMeshAgent>().SetDestination(currentWaypoint.position);
 		}
 	}
 
-	IEnumerator getVictims(){
-		foreach(GameObject victim in victims){
-			if(Vector3.Distance(transform.position,victim.transform.position)<Vector3.Distance(transform.position,closestVictim.position)){
-				closestVictim = victim.transform;
-			}
+	void getWaypoint(){
+		currentWaypoint = waypoints[Random.Range(0,waypoints.Length)].transform;
+		if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
+			getWaypoint();
 		}
-		yield return new WaitForSeconds(30);
 	}
 }
