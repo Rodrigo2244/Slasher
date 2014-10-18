@@ -90,6 +90,8 @@ public class Menu : MonoBehaviour {
 		if(GUI.Button(buttonRect2,"Play")){
 			gameController.GetComponent<GameController>().numPlayers = numPlayers;
 			Application.LoadLevel("LoadingScreen");
+			gameController.GetComponent<GameController>().gameMusic.volume = musicVol;
+			gameController.GetComponent<GameController>().gameMusic.Play ();
 		}
 	}
 
