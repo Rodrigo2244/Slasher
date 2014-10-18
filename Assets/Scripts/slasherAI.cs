@@ -85,6 +85,7 @@ public class slasherAI : MonoBehaviour {
 			StartCoroutine(Chase (victim));
 		} else {
 			isRoaming = true;
+			teleportTimer = teleportTimerLimit;
 			GetComponent<NavMeshAgent>().speed = walkSpeed;
 			yield return 0;
 		}
