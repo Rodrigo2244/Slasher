@@ -37,17 +37,24 @@ function Update () {
 function OnGUI(){
 	if(Input.GetAxis("Pause") == 1 && isDown){
 		isDown = false;
-		isPaused = true;
-		Time.timeScale = 0;
 		if(isPaused){
-			if(GUI.Button(new Rect (Screen.width/2, Screen.height/2, 84,60), "Return to Menu")){
-				Application.LoadLevel("Menus");
-			}
+			isPaused = false;
 		}
+		else
+			isPaused = true;
+		gameController.GetComponent<GameController>().isPaused = isPaused;
 	}
 	if(Input.GetAxis("Pause") == 0){
 		isDown = true;
 	}
+	if(isPaused){
+		//Time.timeScale = 0;
+		if(GUI.Button(new Rect (Screen.width/2-60, Screen.height/2-30, 120,60), "Return to Menu")){
+			Application.LoadLevel("Menus");
+		}
+	}
+	else			
+		Time.timeScale = 1;
 }
 
 // Require a character controller to be attached to the same game object
