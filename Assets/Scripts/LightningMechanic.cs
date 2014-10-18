@@ -5,7 +5,7 @@ public class LightningMechanic : MonoBehaviour {
 	private bool flash = false;
 	public float maxIntensity = 8;
 	public float lightSpeed = 1.5f;
-
+	public int flashChance = 0;
 	// Use this for initialization
 	void Start () {
 
@@ -13,7 +13,7 @@ public class LightningMechanic : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Random.Range (0, 100) == 5)
+		if (Random.Range (0, flashChance) == 5)
 			flash = true;
 
 		if (flash == true) {

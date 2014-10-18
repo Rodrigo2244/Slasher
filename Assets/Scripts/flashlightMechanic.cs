@@ -2,29 +2,29 @@
 using System.Collections;
 
 public class flashlightMechanic : MonoBehaviour {
-
-	public GameObject flashLight;
+	public int PlayerId = 1;
+	public Light flashLight;
 	public bool isLightOn;
 	bool Held = false;
 	// Use this for initialization
 	void Start () {
 		isLightOn = true;
-		flashLight = transform.GetChild(1).GetChild(0).gameObject;
+		flashLight = gameObject.GetComponentInChildren<Light>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(isLightOn){
-			flashLight.SetActive(true);
+			flashLight.intensity = 1;
 		} else {
-			flashLight.SetActive(false);
+			flashLight.intensity = 0;
 		}
 
-		if(Input.GetAxis("Flashlight"+ GetComponentInParent<FPSInputController>().PlayerId) == 1 && Held != true){
+		if(Input.GetAxis("Flashlight"+PlayerId) == 1 && Held != true){
 			isLightOn = !isLightOn;
 			Held = true;
 		}
-		if(Input.GetAxis("Flashlight"+ GetComponentInParent<FPSInputController>().PlayerId) == 0 ){
+		if(Input.GetAxis("Flashlight"+PlayerId) == 0 ){
 			Held = false;
 		}
 	}

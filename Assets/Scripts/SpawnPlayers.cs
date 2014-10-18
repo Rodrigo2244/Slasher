@@ -24,7 +24,7 @@ public class SpawnPlayers : MonoBehaviour {
 			MouseLook[] mouselooks = spawnedPlayer.GetComponentsInChildren <MouseLook>();
 			foreach(MouseLook scripts in  mouselooks)
 				scripts.PlayerId = i;
-
+			spawnedPlayer.GetComponent<flashlightMechanic>().PlayerId = i;
 			spawnedPlayer.GetComponent <FPSInputController>().PlayerId = i;
 			if(playerNum > 2)
 			{
