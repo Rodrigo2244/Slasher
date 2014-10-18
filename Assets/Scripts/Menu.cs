@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Menu : MonoBehaviour {
 
+	const int menuButtonWidth = 300;
 	const int buttonWidth = 84;
 	const int buttonHeight = 60;
 
@@ -22,6 +23,8 @@ public class Menu : MonoBehaviour {
 
 	public float sfxVol = 0.5f;
 	public float musicVol = 0.5f;
+
+	public Texture[] buttonTextures;
 
 	// Use this for initialization
 	void Start () {
@@ -50,21 +53,21 @@ public class Menu : MonoBehaviour {
 	}
 
 	void renderMain(){
-		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)-140, buttonWidth, buttonHeight);
-		buttonRect2 = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)-70, buttonWidth, buttonHeight);
-		buttonRect3 = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
-		buttonRect4 = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+70, buttonWidth, buttonHeight);
+		buttonRect = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)-140, menuButtonWidth, buttonHeight);
+		buttonRect2 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)-70, menuButtonWidth, buttonHeight);
+		buttonRect3 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2), menuButtonWidth, buttonHeight);
+		buttonRect4 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+70, menuButtonWidth, buttonHeight);
 		
-		if(GUI.Button(buttonRect,"Play")){
+		if(GUI.Button(buttonRect,buttonTextures[0])){
 			currentMenu = Menus.CharSelect;
 		}
-		if(GUI.Button(buttonRect2,"Credits")){
+		if(GUI.Button(buttonRect2,buttonTextures[1])){
 			//Application.LoadLevel("Credits");
 		}
-		if(GUI.Button(buttonRect3,"Settings")){
+		if(GUI.Button(buttonRect3,buttonTextures[2])){
 			currentMenu = Menus.Settings;
 		}
-		if(GUI.Button(buttonRect4,"Exit")){
+		if(GUI.Button(buttonRect4,buttonTextures[3])){
 			Application.Quit();
 		}
 	}
