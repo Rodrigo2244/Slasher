@@ -10,10 +10,6 @@ public class LightningMechanic : MonoBehaviour {
 	void Start () {
 
 	}
-
-	void Flash () {
-		flash = true;
-	}
 	
 	// Update is called once per frame
 	void Update () {
