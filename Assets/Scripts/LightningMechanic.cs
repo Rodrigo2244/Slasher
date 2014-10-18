@@ -20,6 +20,7 @@ public class LightningMechanic : MonoBehaviour {
 			if (light.intensity < maxIntensity) {
 				light.intensity += lightSpeed;
 			}else{
+				audio.Play ();
 				flash = false;
 			}
 		} else {
