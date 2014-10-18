@@ -3,8 +3,11 @@
 #pragma downcast
 
 // Does this script currently respond to input?
-var canControl : boolean = true;
-
+public var canControl : boolean = true;
+public var fatigue : boolean = false;
+public var sprintTimer : float = 0;
+public var sprinting : boolean = false;
+public var timeRemaining : float = 0;
 var useFixedUpdate : boolean = true;
 
 // For the next variables, @System.NonSerialized tells Unity to not serialize the variable or show it in the inspector view.
@@ -178,9 +181,18 @@ private var controller : CharacterController;
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
+	timeRemaining = sprintTimer;
 }
 
 private function UpdateFunction () {
+	if(sprinting != true)
+	{
+		timeRemaining = sprintTimer;
+	}
+	if(timeRemaining <= 0)
+	{
+		fatigue = true;
+	}
 	// We copy the actual velocity into a temporary variable that we can manipulate.
 	var velocity : Vector3 = movement.velocity;
 	
@@ -571,12 +583,25 @@ function MaxSpeedInDirection (desiredMovementDirection : Vector3) : float {
 		var zAxisEllipseMultiplier : float = (desiredMovementDirection.z > 0 ? movement.maxForwardSpeed : movement.maxBackwardsSpeed) / movement.maxSidewaysSpeed;
 		var temp : Vector3 = new Vector3(desiredMovementDirection.x, 0, desiredMovementDirection.z / zAxisEllipseMultiplier).normalized;
 		var length : float = new Vector3(temp.x, 0, temp.z * zAxisEllipseMultiplier).magnitude * movement.maxSidewaysSpeed;
-		if(Input.GetAxis("Sprint"+ gameObject.GetComponentInParent(FPSInputController).PlayerId) == 1)
+		if(Input.GetAxis("Sprint"+ gameObject.GetComponentInParent(FPSInputController).PlayerId) == 1 && timeRemaining > 0)
+		{
 			length = length * 2;
+			timeRemaining -= 1;
+			sprinting = true;
+		}
+		if(fatigue)
+		{
+			length = length * .5f;
+			StartCoroutine("ResetFatigue");
+		}
 		return length;
 	}
 }
-
+public function ResetFatigue () {
+		yield WaitForSeconds(3);
+		sprinting = false;
+		fatigue = false;
+}
 function SetVelocity (velocity : Vector3) {
 	grounded = false;
 	movement.velocity = velocity;
