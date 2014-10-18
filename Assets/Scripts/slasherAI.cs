@@ -50,6 +50,11 @@ public class slasherAI : MonoBehaviour {
 			}
 		}
 
+		/*foreach(GameObject victim in victims){
+			if(Vector3.Distance(victim.transform.position,transform.position) < 10 && Physics.Raycast(transform.position,)){
+			}
+		}*/
+
 		Debug.DrawRay(transform.position,transform.forward*lineOfSight,Color.red);
 		Debug.DrawRay(transform.position,transform.forward+transform.right*lineOfSight,Color.red);
 		Debug.DrawRay(transform.position,transform.forward-transform.right*lineOfSight,Color.red);
