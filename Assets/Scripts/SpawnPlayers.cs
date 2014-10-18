@@ -19,7 +19,7 @@ public class SpawnPlayers : MonoBehaviour {
 		for (var i = 0; i < playerNum; i++) {
 
 
-			var index = Random.Range (0, respawns.Count - 1);
+			var index = Random.Range (0, respawns.Count);
 			GameObject spawnedPlayer = (GameObject)Instantiate(Player, respawns[index].transform.position, respawns[index].transform.rotation );
 			MouseLook[] mouselooks = spawnedPlayer.GetComponentsInChildren <MouseLook>();
 			foreach(MouseLook scripts in  mouselooks)
