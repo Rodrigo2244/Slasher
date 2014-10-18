@@ -16,6 +16,7 @@ public class slasherAI : MonoBehaviour {
 	public float lineOfSight;
 	public float walkSpeed;
 	public float runSpeed;
+	public AudioSource violin;
 
 	// Use this for initialization
 	void Start () {
@@ -128,6 +129,9 @@ public class slasherAI : MonoBehaviour {
 
 
 			other.tag = "dead";
+
+			violin.Play ();
+
 			victims = new GameObject[victims.Length -1];
 			victims = GameObject.FindGameObjectsWithTag("Player");
 			Destroy (other.gameObject);
