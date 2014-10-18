@@ -5,7 +5,7 @@ public class flashlightMechanic : MonoBehaviour {
 
 	public GameObject flashLight;
 	public bool isLightOn;
-
+	bool Held = false;
 	// Use this for initialization
 	void Start () {
 		isLightOn = true;
@@ -20,8 +20,12 @@ public class flashlightMechanic : MonoBehaviour {
 			flashLight.SetActive(false);
 		}
 
-		if(Input.GetKeyDown(KeyCode.RightShift)){
+		if(Input.GetAxis("Flashlight"+GetComponentInParent<MouseLook>().PlayerId) == 1 && Held != true){
 			isLightOn = !isLightOn;
+			Held = true;
+		}
+		if(Input.GetAxis("Flashlight"+GetComponentInParent<MouseLook>().PlayerId) == 0 ){
+			Held = false;
 		}
 	}
 }
