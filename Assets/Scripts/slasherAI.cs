@@ -10,6 +10,7 @@ public class slasherAI : MonoBehaviour {
 	bool isChasing;
 	bool isTeleporting;
 	int teleportTimer;
+	public int teleportTimerLimit;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +18,7 @@ public class slasherAI : MonoBehaviour {
 		victims = GameObject.FindGameObjectsWithTag("Player");
 		getWaypoint();
 		isRoaming = true;
-		teleportTimer = 1;
+		teleportTimer = teleportTimerLimit;
 	}
 	
 	// Update is called once per frame
@@ -44,13 +45,12 @@ public class slasherAI : MonoBehaviour {
 
 	void Teleport(int location){
 		foreach(GameObject victim in victims){
-			if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<5){
-				Teleport (Random.Range(0,waypoints.Length));
-				Debug.Log("returning");
+			if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<10){
+				transform.position = waypoints[location].transform.position;
+				teleportTimer = teleportTimerLimit;
 				return;
 			}
 		}
-		transform.position = waypoints[location].transform.position;
-		teleportTimer = 1;
+		Teleport (Random.Range(0,waypoints.Length));
 	}
 }
