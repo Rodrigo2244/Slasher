@@ -2,9 +2,11 @@ private var motor : CharacterMotor;
 public  var PlayerId : int;
 public var isDown : boolean = true;
 public var isPaused : boolean = false;
+public var controller : GameObject;
 // Use this for initialization
 function Awake () {
 	motor = GetComponent(CharacterMotor);
+	controller = gameObject.Find("Game Controller");
 }
 
 // Update is called once per frame
@@ -42,19 +44,16 @@ function OnGUI(){
 		}
 		else
 			isPaused = true;
-		
+		controller.GetComponent("GameController").isPaused = isPaused;
 	}
 	if(Input.GetAxis("Pause") == 0){
 		isDown = true;
 	}
 	if(isPaused){
-		//Time.timeScale = 0;
 		if(GUI.Button(new Rect (Screen.width/2-60, Screen.height/2-30, 120,60), "Return to Menu")){
 			Application.LoadLevel("Menus");
 		}
 	}
-	else			
-		Time.timeScale = 1;
 }
 
 // Require a character controller to be attached to the same game object
