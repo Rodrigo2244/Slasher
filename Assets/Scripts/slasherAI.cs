@@ -51,13 +51,14 @@ public class slasherAI : MonoBehaviour {
 		}
 
 		/*foreach(GameObject victim in victims){
-			if(Vector3.Distance(victim.transform.position,transform.position) < 10 && Physics.Raycast(transform.position,)){
+			if(Vector3.Distance(victim.transform.position,transform.position) < 10 && Physics.Raycast(transform.position,-(transform.position+victim.transform.position).normalized)){
 			}
 		}*/
 
 		Debug.DrawRay(transform.position,transform.forward*lineOfSight,Color.red);
 		Debug.DrawRay(transform.position,transform.forward+transform.right*lineOfSight,Color.red);
 		Debug.DrawRay(transform.position,transform.forward-transform.right*lineOfSight,Color.red);
+		//Debug.DrawRay(transform.position,(transform.position+victims[0].transform.position).normalized,Color.blue);
 		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
 
 	}
@@ -82,7 +83,10 @@ public class slasherAI : MonoBehaviour {
 	}
 
 	IEnumerator Chase(GameObject victim){
-		isRoaming = false;
+		if(isRoaming){
+			isRoaming = false;
+			yield return new WaitForSeconds(1);
+		}
 		GetComponent<NavMeshAgent>().speed = runSpeed;
 		GetComponent<NavMeshAgent>().SetDestination(victim.transform.position);
 		yield return 0;
