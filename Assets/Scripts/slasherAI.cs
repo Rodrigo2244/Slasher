@@ -45,7 +45,7 @@ public class slasherAI : MonoBehaviour {
 
 	void Teleport(int location){
 		foreach(GameObject victim in victims){
-			if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<10){
+			if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<10 && Vector3.Distance(victim.transform.position,waypoints[location].transform.position)>5){
 				transform.position = waypoints[location].transform.position;
 				teleportTimer = teleportTimerLimit;
 				return;
