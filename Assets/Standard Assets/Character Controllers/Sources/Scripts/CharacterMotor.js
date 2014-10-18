@@ -571,6 +571,8 @@ function MaxSpeedInDirection (desiredMovementDirection : Vector3) : float {
 		var zAxisEllipseMultiplier : float = (desiredMovementDirection.z > 0 ? movement.maxForwardSpeed : movement.maxBackwardsSpeed) / movement.maxSidewaysSpeed;
 		var temp : Vector3 = new Vector3(desiredMovementDirection.x, 0, desiredMovementDirection.z / zAxisEllipseMultiplier).normalized;
 		var length : float = new Vector3(temp.x, 0, temp.z * zAxisEllipseMultiplier).magnitude * movement.maxSidewaysSpeed;
+		if(Input.GetAxis("Sprint"+ gameObject.GetComponentInParent(FPSInputController).PlayerId) == 1)
+			length = length * 2;
 		return length;
 	}
 }
