@@ -20,11 +20,11 @@ public class flashlightMechanic : MonoBehaviour {
 			flashLight.SetActive(false);
 		}
 
-		if(Input.GetAxis("Flashlight"+GetComponentInParent<MouseLook>().PlayerId) == 1 && Held != true){
+		if(Input.GetAxis("Flashlight"+GetComponentInParent<FPSInputController>().PlayerId) == 1 && Held != true){
 			isLightOn = !isLightOn;
 			Held = true;
 		}
-		if(Input.GetAxis("Flashlight"+GetComponentInParent<MouseLook>().PlayerId) == 0 ){
+		if(Input.GetAxis("Flashlight"+GetComponentInParent<FPSInputController>().PlayerId) == 0 ){
 			Held = false;
 		}
 	}
