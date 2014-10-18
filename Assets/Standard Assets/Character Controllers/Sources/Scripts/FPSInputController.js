@@ -62,6 +62,7 @@ function OnTriggerEnter(other : Collider)
 	if(other.CompareTag("Win"))
 	{
 		win = true;
+		controller.GetComponent("GameController").hasWon[PlayerId] = true;
 	}
 }
 // Require a character controller to be attached to the same game object

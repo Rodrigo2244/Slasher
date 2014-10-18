@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour {
 			if(hasWon[i] == true || hasDied[i] == true){
 				if(i == numPlayers - 1)
 					print ("YAY");
-					Application.LoadLevel("ScoreBoard");
+					Application.LoadLevel("Scoreboard");
 			}
 			else
 				break;
