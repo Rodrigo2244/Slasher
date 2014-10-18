@@ -60,7 +60,7 @@ public class slasherAI : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.CompareTag("Slasher"))
-			Destroy (gameObject);
+		if(other.CompareTag("Player"))
+			Destroy (other.gameObject);
 	}
 }
