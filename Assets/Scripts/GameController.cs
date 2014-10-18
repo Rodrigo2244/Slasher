@@ -11,12 +11,17 @@ public class GameController : MonoBehaviour {
 
 	public bool[] hasWon;
 	public bool[] hasDied;
-
+	
 	public AudioSource gameMusic;
+
+	public AudioSource violin;
+
+	public AudioSource[] screams;
 
 	void Awake(){
 		hasWon = new bool[4];
 		hasDied = new bool[4];
+
 		DontDestroyOnLoad(transform.gameObject);
 	}
 
@@ -32,10 +37,14 @@ public class GameController : MonoBehaviour {
 				break;
 		}
 	}
-	void HasWon(int playerNumber){
+
+	public void HasWon(int playerNumber){
 		hasWon[playerNumber] = true;
 	}
-	void HasDied(int playerNumber){
+
+	public void HasDied(int playerNumber){
+		violin.Play ();
+		screams[Random.Range (0, screams.Length)].Play();
 		hasDied[playerNumber] = true;
 	}
 }

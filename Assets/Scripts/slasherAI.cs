@@ -16,7 +16,6 @@ public class slasherAI : MonoBehaviour {
 	public float lineOfSight;
 	public float walkSpeed;
 	public float runSpeed;
-	public AudioSource violin;
 
 	// Use this for initialization
 	void Start () {
@@ -125,20 +124,18 @@ public class slasherAI : MonoBehaviour {
 		if(other.CompareTag("Player") && other.GetComponent<FPSInputController>().win != true)
 		{
 			int playerId = other.GetComponent<FPSInputController>().PlayerId;
-			gameController.GetComponent<GameController>().hasDied[playerId] = true;
+			gameController.GetComponent<GameController>().HasDied(playerId);
 
 
 			other.tag = "dead";
 
-			violin.Play ();
-
 			victims = new GameObject[victims.Length -1];
 			victims = GameObject.FindGameObjectsWithTag("Player");
-			Destroy (other.gameObject);
+
 			isRoaming = true;
 			GetComponent<NavMeshAgent>().speed = walkSpeed;
 
-
+			Destroy (other.gameObject);
 
 		}
 			
