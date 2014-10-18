@@ -11,12 +11,20 @@ public class slasherAI : MonoBehaviour {
 	void Start () {
 		victims = GameObject.FindGameObjectsWithTag("Player");
 		closestVictim = victims[Random.Range(0,victims.Length)].transform;
+		StartCoroutine(getVictims());
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(!isPursuing){
 			GetComponent<NavMeshAgent>().SetDestination(closestVictim.position);
+		}
+	}
+
+	IEnumerator getVictims(){
+		foreach(GameObject victim in victims){
+			if(){
+			}
 		}
 	}
 }
