@@ -12,14 +12,12 @@ public class Menu : MonoBehaviour {
 	Rect buttonRect2;
 	Rect buttonRect3;
 	
-	enum Menus {Main, CharSelect};
+	enum Menus {Main, CharSelect, Settings};
 	Menus currentMenu = Menus.Main;
 
 	public static int numPlayers;
 	public static int minPlayers = 1;
 	public static int maxPlayers = 4;
-
-	public GUIText playerNum;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +37,9 @@ public class Menu : MonoBehaviour {
 		case Menus.CharSelect:
 			renderCharSelect();
 			break;
+		case Menus.Settings:
+			renderSettings();
+			break;
 		}
 	}
 
@@ -56,24 +57,22 @@ public class Menu : MonoBehaviour {
 		if(GUI.Button(buttonRect3,"Exit")){
 			Application.Quit();
 		}
-
-		playerNum.text = null;
 	}
 
 	void renderCharSelect(){
 		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2)-50, (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
 		buttonRect2 = new Rect(Screen.width / 2 - (buttonWidth / 2)+50, (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
 
-		if (GUI.Button(new Rect(Screen.width / 2 + 50, (2 * Screen.height / 3)-150, 50, 50), "+")){
+		if (GUI.Button(new Rect(Screen.width / 2 +40, (2 * Screen.height / 3)-150, 50, 50), "+")){
 			if(numPlayers < maxPlayers)
 				numPlayers++;
 		}
-		if (GUI.Button(new Rect(Screen.width / 2 + 50, (2 * Screen.height / 3)-100, 50, 50), "-")){
+		if (GUI.Button(new Rect(Screen.width / 2 + 40, (2 * Screen.height / 3)-100, 50, 50), "-")){
 			if(numPlayers > minPlayers)
 				numPlayers--;
 		}
 
-		playerNum.text = "Players Selected: " +numPlayers;
+		GUI.Label(new Rect(Screen.width / 2 - (buttonWidth / 2)-40, (2 * Screen.height / 3) - (buttonHeight / 2)-100,100,100), "Players Selected: "+numPlayers);
 
 		if(GUI.Button(buttonRect,"Back")){
 			currentMenu = Menus.Main;
@@ -82,5 +81,9 @@ public class Menu : MonoBehaviour {
 			gameController.GetComponent<GameController>().numPlayers = numPlayers;
 			Application.LoadLevel("LoadingScreen");
 		}
+	}
+
+	void renderSettings(){
+
 	}
 }
