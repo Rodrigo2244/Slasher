@@ -8,7 +8,6 @@ public class slasherAI : MonoBehaviour {
 	public Transform currentWaypoint;
 	bool isRoaming;
 	bool isChasing;
-	bool isTeleporting;
 	int teleportTimer;
 	public int teleportTimerLimit;
 
@@ -16,6 +15,7 @@ public class slasherAI : MonoBehaviour {
 	void Start () {
 		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
 		victims = GameObject.FindGameObjectsWithTag("Player");
+		currentWaypoint = waypoints[Random.Range(0,waypoints.Length)].transform;
 		getWaypoint(Random.Range(0,waypoints.Length));
 		isRoaming = true;
 		teleportTimer = teleportTimerLimit;
