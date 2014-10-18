@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
 	void Update(){
 		hasWon = new bool[numPlayers];
 		hasDied = new bool[numPlayers];
+		print (hasWon[0]);
 		for(int i = 0; i < numPlayers; i++){
 			if(hasWon[i] == true || hasDied[i] == true){
 				if(i == numPlayers - 1)
