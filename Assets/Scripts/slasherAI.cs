@@ -16,7 +16,7 @@ public class slasherAI : MonoBehaviour {
 	void Start () {
 		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
 		victims = GameObject.FindGameObjectsWithTag("Player");
-		getWaypoint();
+		getWaypoint(Random.Range(0,waypoints.Length));
 		isRoaming = true;
 		teleportTimer = teleportTimerLimit;
 	}
@@ -25,7 +25,7 @@ public class slasherAI : MonoBehaviour {
 	void Update () {
 		if(isRoaming){
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
-				getWaypoint();
+				getWaypoint(Random.Range(0,waypoints.Length));
 			}
 			GetComponent<NavMeshAgent>().SetDestination(currentWaypoint.position);
 		}
@@ -35,11 +35,10 @@ public class slasherAI : MonoBehaviour {
 		}
 	}
 
-	void getWaypoint(){
-		teleportTimer--; 
-		currentWaypoint = waypoints[Random.Range(0,waypoints.Length)].transform;
-		if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
-			getWaypoint();
+	void getWaypoint(int location){
+		if(Vector3.Distance(transform.position,waypoints[location].transform.position) <= 10){
+			teleportTimer--; 
+			currentWaypoint = waypoints[location].transform;
 		}
 	}
 
