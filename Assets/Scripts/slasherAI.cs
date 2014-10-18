@@ -38,6 +38,10 @@ public class slasherAI : MonoBehaviour {
 
 		if(Physics.Raycast(new Ray(transform.position,transform.forward))){
 		}
+
+		Debug.DrawRay(transform.position,transform.forward,Color.red);
+		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
+
 	}
 	
 	//Get next roam location
