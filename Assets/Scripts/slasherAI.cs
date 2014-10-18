@@ -23,6 +23,7 @@ public class slasherAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Roam aimlessly
 		if(isRoaming){
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
 				getWaypoint(Random.Range(0,waypoints.Length));
@@ -30,11 +31,16 @@ public class slasherAI : MonoBehaviour {
 			GetComponent<NavMeshAgent>().SetDestination(currentWaypoint.position);
 		}
 
+		//Teleport slasher to new location
 		if(teleportTimer == 0){
 			Teleport (Random.Range(0,waypoints.Length));
 		}
-	}
 
+		if(Physics.Raycast(new Ray(transform.position,transform.forward))){
+		}
+	}
+	
+	//Get next roam location
 	void getWaypoint(int location){
 		if(Vector3.Distance(transform.position,waypoints[location].transform.position) <= 10){
 			teleportTimer--; 
