@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour {
 	public bool[] hasWon;
 	public bool[] hasDied;
 
+	public AudioSource gameMusic;
+
 	void Awake(){
 		hasWon = new bool[4];
 		hasDied = new bool[4];
