@@ -3,10 +3,12 @@ public  var PlayerId : int;
 public var isDown : boolean = true;
 public var isPaused : boolean = false;
 public var controller : GameObject;
+public var win : boolean = false;
 // Use this for initialization
 function Awake () {
 	motor = GetComponent(CharacterMotor);
 	controller = gameObject.Find("Game Controller");
+
 }
 
 // Update is called once per frame
@@ -55,7 +57,13 @@ function OnGUI(){
 		}
 	}
 }
-
+function OnTriggerEnter(other : Collider)
+{
+	if(other.CompareTag("Win"))
+	{
+		win = true;
+	}
+}
 // Require a character controller to be attached to the same game object
 @script RequireComponent (CharacterMotor)
 @script AddComponentMenu ("Character/FPS Input Controller")
