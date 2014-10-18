@@ -5,6 +5,7 @@ public class slasherAI : MonoBehaviour {
 
 	GameObject[] waypoints;
 	public GameObject[] victims;
+	public GameObject gameController;
 	Transform currentWaypoint;
 	RaycastHit objectSeen;
 	bool isRoaming;
@@ -18,7 +19,7 @@ public class slasherAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		gameController = GameObject.Find("Game Controller");
 		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
 		victims = GameObject.FindGameObjectsWithTag("Player");
 		currentWaypoint = waypoints[Random.Range(0,waypoints.Length)].transform;
@@ -122,6 +123,9 @@ public class slasherAI : MonoBehaviour {
 	{
 		if(other.CompareTag("Player") && other.GetComponent<FPSInputController>().win != true)
 		{
+			int playerId = other.GetComponent<FPSInputController>().PlayerId;
+			gameController.GetComponent<GameController>().hasDied[playerId] = true;
+
 
 			other.tag = "dead";
 			victims = new GameObject[victims.Length -1];

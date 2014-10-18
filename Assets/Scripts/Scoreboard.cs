@@ -26,9 +26,9 @@ public class Scoreboard : MonoBehaviour {
 		buttonRect= new Rect(Screen.width / 2-75, (2 * Screen.height / 3) ,150,60);
 		for(int i = 0; i < numPlayers; i++){
 			if(hasWon[i] == true)
-				GUI.Label(new Rect(Screen.width/2-125, Screen.height/2-i*2, 250, 200), "Player " +(i+1)+" has survived.");
+				GUI.Label(new Rect(Screen.width/2-60, Screen.height/2+i*20-100, 250, 200), "Player " +(i+1)+" has survived.");
 			if(hasDied[i] == true)
-				GUI.Label(new Rect(Screen.width/2, Screen.height/2-i*2, 100, 100), "Player " +(i+1)+" has survived.");
+				GUI.Label(new Rect(Screen.width/2-60, Screen.height/2+i*20-100, 250, 200), "Player " +(i+1)+" has died.");
 		}
 		if(GUI.Button(buttonRect,"Return to Menu")){
 			Application.LoadLevel("Menus");
