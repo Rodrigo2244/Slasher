@@ -3,13 +3,18 @@ using System.Collections;
 
 public class slasherAI : MonoBehaviour {
 
-	public GameObject[] waypoints;
-	public GameObject[] victims;
-	public Transform currentWaypoint;
+	GameObject[] waypoints;
+	GameObject[] victims;
+	Transform currentWaypoint;
+	RaycastHit objectSeen;
 	bool isRoaming;
 	bool isChasing;
 	int teleportTimer;
+
 	public int teleportTimerLimit;
+	public float lineOfSight;
+	public float walkSpeed;
+	public float runSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -36,10 +41,18 @@ public class slasherAI : MonoBehaviour {
 			Teleport (Random.Range(0,waypoints.Length));
 		}
 
-		if(Physics.Raycast(new Ray(transform.position,transform.forward))){
+		//Interact with object in his line of sight
+		if((Physics.Raycast(transform.position,transform.forward,out objectSeen,lineOfSight) || 
+		   Physics.Raycast(transform.position,transform.forward+transform.right,out objectSeen,lineOfSight) ||
+		   Physics.Raycast(transform.position,transform.forward-transform.right,out objectSeen,lineOfSight)) && isRoaming){
+			if(objectSeen.transform.tag == "Player" && objectSeen.transform.GetComponent<flashlightMechanic>().isLightOn){
+				StartCoroutine(Chase (objectSeen.transform.gameObject));
+			}
 		}
 
-		Debug.DrawRay(transform.position,transform.forward,Color.red);
+		Debug.DrawRay(transform.position,transform.forward*lineOfSight,Color.red);
+		Debug.DrawRay(transform.position,transform.forward+transform.right*lineOfSight,Color.red);
+		Debug.DrawRay(transform.position,transform.forward-transform.right*lineOfSight,Color.red);
 		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
 
 	}
@@ -55,16 +68,31 @@ public class slasherAI : MonoBehaviour {
 	void Teleport(int location){
 		foreach(GameObject victim in victims){
 			if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<10 && Vector3.Distance(victim.transform.position,waypoints[location].transform.position)>5){
-				transform.position = waypoints[location].transform.position;
+				GetComponent<NavMeshAgent>().Warp(waypoints[location].transform.position);
 				teleportTimer = teleportTimerLimit;
 				return;
 			}
 		}
 		Teleport (Random.Range(0,waypoints.Length));
 	}
-	void OnTriggerEnter(Collider other)
+
+	IEnumerator Chase(GameObject victim){
+		isRoaming = false;
+		GetComponent<NavMeshAgent>().speed = runSpeed;
+		GetComponent<NavMeshAgent>().SetDestination(victim.transform.position);
+		yield return 0;
+		if(GetComponent<NavMeshAgent>().remainingDistance < 5){
+			StartCoroutine(Chase (victim));
+		} else {
+			isRoaming = true;
+			GetComponent<NavMeshAgent>().speed = walkSpeed;
+			yield return 0;
+		}
+	}
+
+	/*void OnTriggerEnter(Collider other)
 	{
 		if(other.CompareTag("Player") && other.GetComponent<FPSInputController>().win != true)
 			Destroy (other.gameObject);
-	}
+	}*/
 }
