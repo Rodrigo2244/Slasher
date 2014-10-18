@@ -28,26 +28,26 @@ public class SpawnPlayers : MonoBehaviour {
 			spawnedPlayer.GetComponent <FPSInputController>().PlayerId = i;
 			if(playerNum > 2)
 			{
-				if(i == 0)
+				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 0)
 				{
 					spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(0,.5f,.5f,.5f);
 				}
-				if(i == 1)
+				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 1)
 				{
 					spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(.5f,.5f,.5f,.5f);
 				}
-				if(i == 2)
+				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 2)
 				{
 					spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(0,0,.5f,.5f);
 				}
-				if(i == 3)				//{
+				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 3)				//{
 					spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(.5f,0,.5f,.5f);
 				//}
 
 			}
 			else
 			{
-				if(i == 0)
+				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 0)
 				{
 					spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(0,.5f,1,.5f);
 				}
