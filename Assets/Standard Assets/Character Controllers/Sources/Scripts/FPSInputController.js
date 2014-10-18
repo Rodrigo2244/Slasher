@@ -42,7 +42,7 @@ function OnGUI(){
 		}
 		else
 			isPaused = true;
-		gameController.GetComponent<GameController>().isPaused = isPaused;
+		
 	}
 	if(Input.GetAxis("Pause") == 0){
 		isDown = true;
