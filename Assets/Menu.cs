@@ -11,7 +11,8 @@ public class Menu : MonoBehaviour {
 	Rect buttonRect;
 	Rect buttonRect2;
 	Rect buttonRect3;
-	
+	Rect buttonRect4;
+
 	enum Menus {Main, CharSelect, Settings};
 	Menus currentMenu = Menus.Main;
 
@@ -19,9 +20,14 @@ public class Menu : MonoBehaviour {
 	public static int minPlayers = 1;
 	public static int maxPlayers = 4;
 
+	public float sfxVol = 0.5f;
+	public float musicVol = 0.5f;
+
 	// Use this for initialization
 	void Start () {
 		numPlayers = minPlayers;
+		gameController.GetComponent<GameController>().sfxVol = sfxVol;
+		gameController.GetComponent<GameController>().musicVol = musicVol;
 	}
 	
 	// Update is called once per frame
@@ -47,6 +53,7 @@ public class Menu : MonoBehaviour {
 		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)-140, buttonWidth, buttonHeight);
 		buttonRect2 = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)-70, buttonWidth, buttonHeight);
 		buttonRect3 = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
+		buttonRect4 = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+70, buttonWidth, buttonHeight);
 		
 		if(GUI.Button(buttonRect,"Play")){
 			currentMenu = Menus.CharSelect;
@@ -54,7 +61,10 @@ public class Menu : MonoBehaviour {
 		if(GUI.Button(buttonRect2,"Credits")){
 			//Application.LoadLevel("Credits");
 		}
-		if(GUI.Button(buttonRect3,"Exit")){
+		if(GUI.Button(buttonRect3,"Settings")){
+			currentMenu = Menus.Settings;
+		}
+		if(GUI.Button(buttonRect4,"Exit")){
 			Application.Quit();
 		}
 	}
@@ -84,6 +94,18 @@ public class Menu : MonoBehaviour {
 	}
 
 	void renderSettings(){
+		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+50, buttonWidth, buttonHeight);
 
+		sfxVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2+20, 100, 25), sfxVol, 0.0f, 1.0f);
+		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2, 150,60), "Sound Effects: " + (sfxVol*10).ToString("f0"));
+
+		musicVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2-30, 100, 25), musicVol, 0.0f, 1.0f);
+		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2-50, 150,60), "Music: " + (musicVol*10).ToString("f0"));
+
+		if(GUI.Button(buttonRect,"Back")){
+			gameController.GetComponent<GameController>().sfxVol = sfxVol;
+			gameController.GetComponent<GameController>().musicVol = musicVol;
+			currentMenu = Menus.Main;
+		}
 	}
 }

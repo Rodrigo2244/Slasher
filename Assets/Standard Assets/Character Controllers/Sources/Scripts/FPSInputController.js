@@ -1,5 +1,7 @@
 private var motor : CharacterMotor;
 public  var PlayerId : int;
+public var isDown : boolean = true;
+public var isPaused : boolean = false;
 // Use this for initialization
 function Awake () {
 	motor = GetComponent(CharacterMotor);
@@ -30,6 +32,22 @@ function Update () {
 	// Apply the direction to the CharacterMotor
 	motor.inputMoveDirection = transform.rotation * directionVector;
 	//motor.inputJump = Input.GetButton("Jump");
+}
+
+function OnGUI(){
+	if(Input.GetAxis("Pause") == 1 && isDown){
+		isDown = false;
+		isPaused = true;
+		Time.timeScale = 0;
+		if(isPaused){
+			if(GUI.Button(new Rect (Screen.width/2, Screen.height/2, 84,60), "Return to Menu")){
+				Application.LoadLevel("Menus");
+			}
+		}
+	}
+	if(Input.GetAxis("Pause") == 0){
+		isDown = true;
+	}
 }
 
 // Require a character controller to be attached to the same game object
