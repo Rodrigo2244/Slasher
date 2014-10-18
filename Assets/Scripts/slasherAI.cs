@@ -10,7 +10,7 @@ public class slasherAI : MonoBehaviour {
 	bool isRoaming;
 	bool isChasing;
 	int teleportTimer;
-
+	public float idleTime = 0;
 	public int teleportTimerLimit;
 	public float lineOfSight;
 	public float walkSpeed;
@@ -43,11 +43,16 @@ public class slasherAI : MonoBehaviour {
 	void Update () {
 		//Roam aimlessly
 		if(isRoaming){
+			idleTime += Time.deltaTime;
 			GetComponent<NavMeshAgent>().speed = walkSpeed;
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
 				getWaypoint(Random.Range(0,waypoints.Length));
 			}
 			GetComponent<NavMeshAgent>().SetDestination(currentWaypoint.position);
+			if(idleTime >= 200f)
+			{
+				getWaypoint(Random.Range(0,waypoints.Length));
+			}
 		}
 
 		//Teleport slasher to new location
