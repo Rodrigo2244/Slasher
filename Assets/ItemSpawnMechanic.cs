@@ -11,17 +11,19 @@ public class ItemSpawnMechanic : MonoBehaviour {
 		foreach (GameObject item in GameObject.FindGameObjectsWithTag ("Item")) {
 			itemList.Add(item);
 		}
+		if(itemList.Count > 0)
+		{
+			foreach (GameObject ItemSpawn in GameObject.FindGameObjectsWithTag ("ItemSpawn")) {
 
-		foreach (GameObject ItemSpawn in GameObject.FindGameObjectsWithTag ("ItemSpawn")) {
+				GameObject item = itemList[ Random.Range (0, itemList.Count)  ];
 
-			GameObject item = itemList[ Random.Range (0, itemList.Count)  ];
+				GameObject newItem = Instantiate(item, ItemSpawn.transform.position, item.transform.rotation ) as GameObject;
 
-			GameObject newItem = Instantiate(item, ItemSpawn.transform.position, item.transform.rotation ) as GameObject;
+				newItem.transform.parent = ItemSpawn.transform;
 
-			newItem.transform.parent = ItemSpawn.transform;
+				newItem.transform.Rotate(newItem.transform.up * Random.Range(0, 361) );
 
-			newItem.transform.Rotate(newItem.transform.up * Random.Range(0, 361) );
-
+			}
 		}
 	}
 }
