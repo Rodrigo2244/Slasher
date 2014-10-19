@@ -32,7 +32,9 @@ public class Scoreboard : MonoBehaviour {
 				GUI.Label(new Rect(Screen.width/2-60, Screen.height/2+i*20-100, 250, 200), "Player " +(i+1)+" has died.",gui);
 		}
 		if(GUI.Button(buttonRect,"Return to Menu",gui)){
+			Destroy (gameController);
 			Application.LoadLevel("Menus");
 		}
 	}
+
 }

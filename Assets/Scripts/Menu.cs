@@ -21,7 +21,7 @@ public class Menu : MonoBehaviour {
 	enum Menus {Main, CharSelect, Settings};
 	Menus currentMenu = Menus.Main;
 
-	public static int numPlayers;
+	public int numPlayers;
 	public static int minPlayers = 1;
 	public static int maxPlayers = 4;
 
@@ -40,6 +40,10 @@ public class Menu : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+	}
+
+	void Awake(){
+		numPlayers = minPlayers;
 	}
 
 	void OnGUI(){

@@ -54,6 +54,7 @@ function OnGUI(){
 	}
 	if(isPaused){
 		if(GUI.Button(new Rect (Screen.width/2-60, Screen.height/2-30, 120,60), "Return to Menu")){
+			Destroy(controller);
 			Application.LoadLevel("Menus");
 		}
 	}
