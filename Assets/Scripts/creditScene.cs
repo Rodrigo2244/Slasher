@@ -3,7 +3,7 @@ using System.Collections;
 
 public class creditScene : MonoBehaviour {
 
-	public GUIText name;
+	public GUIText personName;
 	public GUIText description;
 
 	// Use this for initialization
@@ -13,58 +13,58 @@ public class creditScene : MonoBehaviour {
 	
 	IEnumerator Credits(){
 		yield return new WaitForSeconds(4);
-		name.text = "Rodrigo Rojas-Ferrer";
+		personName.text = "Rodrigo Rojas-Ferrer";
 		description.text = "Lead Designer, Programmer";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Alex Batty";
+		personName.text = "Alex Batty";
 		description.text = "Programmer";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Eric Fraze";
+		personName.text = "Eric Fraze";
 		description.text = "Programmer";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Sam Heineman";
+		personName.text = "Sam Heineman";
 		description.text = "Programmer";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Ryan Stith";
+		personName.text = "Ryan Stith";
 		description.text = "Level Designer";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Melissa Almirall";
+		personName.text = "Melissa Almirall";
 		description.text = "3D Modeler";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Chris Alvarado";
+		personName.text = "Chris Alvarado";
 		description.text = "3D Modeler, Animator";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Andrew Connell";
+		personName.text = "Andrew Connell";
 		description.text = "3D Modeler";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
-		name.text = "Stephanie Phillips";
+		personName.text = "Stephanie Phillips";
 		description.text = "2D Artist, Sound Artist";
 		yield return new WaitForSeconds(4);
-		name.text = "";
+		personName.text = "";
 		description.text = "";
 		yield return new WaitForSeconds(4);
 
