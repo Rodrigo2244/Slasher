@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Menu : MonoBehaviour {
 
+	public GUIStyle style;
+
 	const int menuButtonWidth = 300;
 	const int buttonWidth = 84;
 	const int buttonHeight = 60;
@@ -39,6 +41,7 @@ public class Menu : MonoBehaviour {
 	}
 
 	void OnGUI(){
+
 		switch (currentMenu) {
 		case Menus.Main:
 			renderMain();
@@ -58,16 +61,16 @@ public class Menu : MonoBehaviour {
 		buttonRect3 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2), menuButtonWidth, buttonHeight);
 		buttonRect4 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+70, menuButtonWidth, buttonHeight);
 		
-		if(GUI.Button(buttonRect,buttonTextures[0])){
+		if(GUI.Button(buttonRect,"Play",style)){
 			currentMenu = Menus.CharSelect;
 		}
-		if(GUI.Button(buttonRect2,buttonTextures[1])){
+		if(GUI.Button(buttonRect2,"Credits",style)){
 			//Application.LoadLevel("Credits");
 		}
-		if(GUI.Button(buttonRect3,buttonTextures[2])){
+		if(GUI.Button(buttonRect3,"Settings",style)){
 			currentMenu = Menus.Settings;
 		}
-		if(GUI.Button(buttonRect4,buttonTextures[3])){
+		if(GUI.Button(buttonRect4,"Quit",style)){
 			Application.Quit();
 		}
 	}
