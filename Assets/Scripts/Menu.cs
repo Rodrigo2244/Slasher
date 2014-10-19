@@ -26,14 +26,12 @@ public class Menu : MonoBehaviour {
 	public static int minPlayers = 1;
 	public static int maxPlayers = 4;
 
-	public float sfxVol = 0.5f;
-	public float musicVol = 0.5f;
+	public float masterVol = 0.5f;
 
 	// Use this for initialization
 	void Start () {
 		numPlayers = minPlayers;
-		gameController.GetComponent<GameController>().sfxVol = sfxVol;
-		gameController.GetComponent<GameController>().musicVol = musicVol;
+		gameController.GetComponent<GameController>().masterVol = masterVol;
 	}
 	
 	// Update is called once per frame
@@ -110,18 +108,17 @@ public class Menu : MonoBehaviour {
 	}
 
 	void renderSettings(){
-		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+50, buttonWidth, buttonHeight);
+		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2)-100, (2 * Screen.height / 3) - (buttonHeight / 2)+50, buttonWidth, buttonHeight);
+		buttonRect2 = new Rect(Screen.width / 2 - (buttonWidth / 2)+100, (2 * Screen.height / 3) - (buttonHeight / 2)+50, buttonWidth, buttonHeight);
 		
-		musicVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2-30, 100, 25), musicVol, 0.0f, 1.0f);
-		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2-50, 150,60), "Music: " + (musicVol*100).ToString("f0"));
-
-		sfxVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2+20, 100, 25), sfxVol, 0.0f, 1.0f);
-		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2, 150,60), "Sound Effects: " + (sfxVol*100).ToString("f0"));
+		masterVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2-30, 100, 25), masterVol, 0.0f, 1.0f);
+		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2-50, 150,60), "Master Volume: " + (masterVol*100).ToString("f0"));
 
 		if(GUI.Button(buttonRect,"Back")){
-			gameController.GetComponent<GameController>().sfxVol = sfxVol;
-			gameController.GetComponent<GameController>().musicVol = musicVol;
 			currentMenu = Menus.Main;
+		}
+		if(GUI.Button(buttonRect2,"Apply")){
+			gameController.GetComponent<GameController>().masterVol = masterVol;
 		}
 	}
 
@@ -130,7 +127,7 @@ public class Menu : MonoBehaviour {
 		isBegin = true;
 		yield return new WaitForSeconds(10f);
 		Application.LoadLevel("LoadingScreen");
-		gameController.GetComponent<GameController>().gameMusic.volume = musicVol;
+		gameController.GetComponent<GameController>().gameMusic.volume = masterVol;
 		gameController.GetComponent<GameController>().gameMusic.Play ();
 	}
 }

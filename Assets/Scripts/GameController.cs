@@ -4,8 +4,7 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public int numPlayers;
-	public float sfxVol;
-	public float musicVol;
+	public float masterVol;
 	public bool isPaused;
 	public bool isLoaded = false;
 
@@ -36,14 +35,9 @@ public class GameController : MonoBehaviour {
 			else
 				break;
 		}
-		foreach(AudioSource scream in screams){
-			scream.volume = sfxVol;
-		}
 
-		violin.volume = sfxVol;
-		gameMusic.volume = musicVol;
-		print (violin.volume);
-		print (gameMusic.volume);
+		AudioListener.volume = masterVol;
+
 	}
 
 	public void HasWon(int playerNumber){
