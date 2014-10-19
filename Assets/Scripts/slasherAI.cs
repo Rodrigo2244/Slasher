@@ -67,7 +67,7 @@ public class slasherAI : MonoBehaviour {
 		Vector3 p1  = transform.position + caspule.center + Vector3.up * (-caspule.height*0.5f);
 		Vector3 p2 = p1 + Vector3.up * caspule.height;
 
-		if ( Physics.CapsuleCast(p1, p2, caspule.radius, transform.forward, out hit, 0.000001f ) ) {
+		if ( Physics.CapsuleCast(p1, p2, caspule.radius, transform.forward, out hit, 0.1f ) ) {
 			Debug.Log ("Fail");
 			GameObject deadvictim = hit.collider.transform.gameObject;
 			if(deadvictim.CompareTag("Player") && deadvictim.GetComponent<FPSInputController>().win != true)
@@ -119,14 +119,20 @@ public class slasherAI : MonoBehaviour {
 	}
 
 	void Teleport(int location){
-		foreach(GameObject victim in victims){
-			if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<20 && Vector3.Distance(victim.transform.position,waypoints[location].transform.position)>5){
-				GetComponent<NavMeshAgent>().Warp(waypoints[location].transform.position);
-				teleportTimer = teleportTimerLimit;
-				return;
+		for (int i = 0; i < 5; i++) {
+			foreach(GameObject victim in victims){
+				if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<20 && Vector3.Distance(victim.transform.position,waypoints[location].transform.position)>5){
+					GetComponent<NavMeshAgent>().Warp(waypoints[location].transform.position);
+					teleportTimer = teleportTimerLimit;
+					return;
+				}
 			}
 		}
-		Teleport (Random.Range(0,waypoints.Length));
+
+		location = Random.Range (0, waypoints.Length);
+		GetComponent<NavMeshAgent>().Warp(waypoints[location].transform.position);
+		teleportTimer = teleportTimerLimit;
+		return;
 	}
 
 	IEnumerator Chase(GameObject victim){
