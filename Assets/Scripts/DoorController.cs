@@ -49,6 +49,11 @@ public class DoorController : MonoBehaviour {
 			{
 				StartCoroutine("Open");
 			}
+			else
+			{
+				StartCoroutine ("Close");
+				enemy.GetComponent<slasherAI>().wait = false;
+			}
 		}
 		foreach(GameObject player in players)
 		{
