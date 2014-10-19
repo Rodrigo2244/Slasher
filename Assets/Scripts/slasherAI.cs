@@ -165,8 +165,18 @@ public class slasherAI : MonoBehaviour {
 			}
 
 			bool closer = false;
+			int i = Random.Range (0, victims.Length);
+			for (int ii = 0; ii < victims.Length; ii++){
 
-			foreach (GameObject victim in victims) {
+				if (i >= victims.Length)
+					i = 0;
+
+				GameObject victim = victims[i];
+
+				Debug.Log (i);
+
+				i++;
+
 				if ( (victim.transform.position - waypoint.transform.position).magnitude < 10 ) {
 					Debug.Log ("found closer");
 					teleportTimer--; 
