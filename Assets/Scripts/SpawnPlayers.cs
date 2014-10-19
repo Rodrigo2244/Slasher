@@ -31,14 +31,14 @@ public class SpawnPlayers : MonoBehaviour {
 				scripts.PlayerId = i;
 			spawnedPlayer.GetComponent<flashlightMechanic>().PlayerId = i;
 			spawnedPlayer.GetComponent <FPSInputController>().PlayerId = i;
-			if(i == 0)
-				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player1Texture;
+			if(i == 0) 	
+				spawnedPlayer.transform.GetChild(2).GetChild(3).GetComponent<SkinnedMeshRenderer>().material = player1Texture;
 			if(i == 1)
-				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player2Texture;
+				spawnedPlayer.transform.GetChild(2).GetChild(3).GetComponent<SkinnedMeshRenderer>().material = player2Texture;
 			if(i == 2)
-				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player3Texture;
+				spawnedPlayer.transform.GetChild(2).GetChild(3).GetComponent<SkinnedMeshRenderer>().material = player3Texture;
 			if(i == 3)
-				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player4Texture;
+				spawnedPlayer.transform.GetChild(2).GetChild(3).GetComponent<SkinnedMeshRenderer>().material = player4Texture;
 			if(playerNum > 2)
 			{
 				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 0)
