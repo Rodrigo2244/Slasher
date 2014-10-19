@@ -31,6 +31,8 @@ public class MouseLook : MonoBehaviour {
 
 	float rotationY = 0F;
 
+	public GameObject ghostPlayer;
+
 
 	void Update ()
 	{
@@ -64,5 +66,10 @@ public class MouseLook : MonoBehaviour {
 		
 		if (GetComponent<Rigidbody>())
 			GetComponent<Rigidbody>().freezeRotation = true;
+	}
+
+	void OnDestroy(){
+		GameObject ghostClone = (GameObject)Instantiate(ghostPlayer, transform.position, transform.rotation);
+		ghostClone.GetComponent<MouseLook>().PlayerId = PlayerId;
 	}
 }
