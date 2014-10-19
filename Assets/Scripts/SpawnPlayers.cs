@@ -45,7 +45,7 @@ public class SpawnPlayers : MonoBehaviour {
 				//}
 
 			}
-			else
+			else if(playerNum > 1)
 			{
 				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 0)
 				{
@@ -55,6 +55,10 @@ public class SpawnPlayers : MonoBehaviour {
 				{
 					spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(0,0,1,.5f);
 				}
+			}
+			else
+			{
+				spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(0,0,1,1);
 			}
 
 		
