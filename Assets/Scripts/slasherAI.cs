@@ -43,7 +43,7 @@ public class slasherAI : MonoBehaviour {
 				}
 			}
 
-			if ( (victim.transform.position - transform.position).magnitude < 12 )
+			if ( (victim.transform.position - transform.position).magnitude < 6 )
 			{
 				if ( victim.transform.tag == "Player" && victim.transform.GetComponent<CharacterMotor>().sprinting ){
 					StartCoroutine(Chase (victim.transform.gameObject));
@@ -78,9 +78,7 @@ public class slasherAI : MonoBehaviour {
 				
 				isRoaming = true;
 				GetComponent<NavMeshAgent>().speed = walkSpeed;
-				
-				deadvictim.GetComponent<FPSInputController>().isKilled = true;
-				
+
 				Destroy (deadvictim.gameObject);
 			}
 		}
@@ -88,9 +86,11 @@ public class slasherAI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (door != null)
+			if(wait && door.GetComponent<DoorController>().open)
+				wait = false;
 			
-
-		//Roam aimlessly
+			//Roam aimlessly
 		if(isRoaming){
 			idleTime += Time.deltaTime;
 			if(CanSecret)
@@ -104,12 +104,9 @@ public class slasherAI : MonoBehaviour {
 				GetComponent<NavMeshAgent>().acceleration = 8;
 			}
 
-			if(wait)
+			if(wait && !door.GetComponent<DoorController>().open)
 			{
-				if(door.GetComponent<DoorController>().open)
-					wait = false;
-				else
-					GetComponent<NavMeshAgent>().speed = 0;
+				GetComponent<NavMeshAgent>().speed = 0;
 			}
 
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 3){

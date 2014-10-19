@@ -14,12 +14,13 @@ public class DoorController : MonoBehaviour {
 		players = GameObject.FindGameObjectsWithTag("Player");
 		enemy = GameObject.FindGameObjectWithTag("Slasher");
 
-		StartCoroutine("Open");
+		//StartCoroutine("Open");
 
 	}
 
 	public IEnumerator Open () {
 		animation["Door Open"].speed = 1;
+		animation ["Door Open"].time = animation ["Door Open"].length;
 		animation.Play("Door Open");
 		doorOpen.Play ();
 		yield return new WaitForSeconds( animation["Door Open"].length );
