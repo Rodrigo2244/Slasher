@@ -4,6 +4,8 @@ using System.Collections;
 public class Menu : MonoBehaviour {
 
 	public GUIStyle style;
+	public bool isBegin;
+	public GUIText story;
 
 	const int menuButtonWidth = 300;
 	const int buttonWidth = 84;
@@ -41,17 +43,20 @@ public class Menu : MonoBehaviour {
 	}
 
 	void OnGUI(){
-
-		switch (currentMenu) {
-		case Menus.Main:
-			renderMain();
-			break;
-		case Menus.CharSelect:
-			renderCharSelect();
-			break;
-		case Menus.Settings:
-			renderSettings();
-			break;
+		if(!isBegin){
+			switch (currentMenu) {
+			case Menus.Main:
+				renderMain();
+				break;
+			case Menus.CharSelect:
+				renderCharSelect();
+				break;
+			case Menus.Settings:
+				renderSettings();
+				break;
+			}
+		} else {
+			
 		}
 	}
 
@@ -95,9 +100,8 @@ public class Menu : MonoBehaviour {
 		}
 		if(GUI.Button(buttonRect2,"Play")){
 			gameController.GetComponent<GameController>().numPlayers = numPlayers;
-			Application.LoadLevel("LoadingScreen");
-			gameController.GetComponent<GameController>().gameMusic.volume = musicVol;
-			gameController.GetComponent<GameController>().gameMusic.Play ();
+			Camera.main.animation.Play ("gameStart");
+			StartCoroutine(Begin ());
 		}
 	}
 
@@ -115,5 +119,14 @@ public class Menu : MonoBehaviour {
 			gameController.GetComponent<GameController>().musicVol = musicVol;
 			currentMenu = Menus.Main;
 		}
+	}
+
+	IEnumerator Begin(){
+		story.gameObject.SetActive(true);
+		isBegin = true;
+		yield return new WaitForSeconds(10f);
+		Application.LoadLevel("LoadingScreen");
+		gameController.GetComponent<GameController>().gameMusic.volume = musicVol;
+		gameController.GetComponent<GameController>().gameMusic.Play ();
 	}
 }
