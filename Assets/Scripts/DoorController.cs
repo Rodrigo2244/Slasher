@@ -43,23 +43,27 @@ public class DoorController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		players = GameObject.FindGameObjectsWithTag("Player");
-
-		if( (enemy.transform.position - gameObject.transform.position).magnitude <= 2)
+		enemy = GameObject.FindGameObjectWithTag("Slasher");
+		if(enemy != null)
 		{
-			Debug.Log ("Walked through Slasher");
-			enemy.GetComponent<slasherAI>().wait = true;
-			enemy.GetComponent<slasherAI>().door = gameObject;
-			delay = true;
-			if(open != true)
+			if( (enemy.transform.position - gameObject.transform.position).magnitude <= 2)
 			{
-				StartCoroutine("Open");
-			}
-			else
-			{
-				StartCoroutine ("Close");
-				enemy.GetComponent<slasherAI>().wait = false;
+				Debug.Log ("Walked through Slasher");
+				enemy.GetComponent<slasherAI>().wait = true;
+				enemy.GetComponent<slasherAI>().door = gameObject;
+				delay = true;
+				if(open != true)
+				{
+					StartCoroutine("Open");
+				}
+				else
+				{
+					StartCoroutine ("Close");
+					enemy.GetComponent<slasherAI>().wait = false;
+				}
 			}
 		}
+
 		foreach(GameObject player in players)
 		{
 			if(Input.GetAxis("Door"+player.GetComponent<FPSInputController>().PlayerId) == 1 && delay != true && (transform.position - player.transform.position).magnitude <= 25)
