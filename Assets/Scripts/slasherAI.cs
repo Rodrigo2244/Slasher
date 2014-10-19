@@ -54,6 +54,36 @@ public class slasherAI : MonoBehaviour {
 				CanSecret = false;
 			}
 		}
+
+		CapsuleCollider caspule = GetComponent("CapsuleCollider") as CapsuleCollider;
+		Vector3 p1  = transform.position + caspule.center + Vector3.up * (-caspule.height*0.5f);
+		Vector3 p2 = p1 + Vector3.up * caspule.height;
+		
+		RaycastHit[] hitArray = Physics.CapsuleCastAll(p1, p2, caspule.radius, transform.forward, 0.1f);
+		//RaycastHit hit = new RaycastHit();
+		Debug.Log ("Fail");
+		foreach(RaycastHit hit in hitArray)
+		{
+		
+			GameObject deadvictim = hit.collider.transform.gameObject;
+			if(deadvictim.CompareTag("Player") && deadvictim.GetComponent<FPSInputController>().win != true)
+			{
+				int playerId = deadvictim.GetComponent<FPSInputController>().PlayerId;
+				gameController.GetComponent<GameController>().HasDied(playerId);
+				
+				deadvictim.tag = "dead";
+				
+				victims = new GameObject[victims.Length -1];
+				victims = GameObject.FindGameObjectsWithTag("Player");
+				
+				isRoaming = true;
+				GetComponent<NavMeshAgent>().speed = walkSpeed;
+				
+				deadvictim.GetComponent<FPSInputController>().isKilled = true;
+				
+				Destroy (deadvictim.gameObject);
+			}
+		}
 	}
 	// Update is called once per frame
 	void Update () {
@@ -82,7 +112,7 @@ public class slasherAI : MonoBehaviour {
 					GetComponent<NavMeshAgent>().speed = 0;
 			}
 
-			if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
+			if(Vector3.Distance(currentWaypoint.position,transform.position) < 3){
 				getWaypoint(Random.Range(0,waypoints.Length));
 			}
 			GetComponent<NavMeshAgent>().SetDestination(currentWaypoint.position);
@@ -98,33 +128,10 @@ public class slasherAI : MonoBehaviour {
 		}
 
 
-		RaycastHit hit = new RaycastHit();
-		CapsuleCollider caspule = GetComponent("CapsuleCollider") as CapsuleCollider;
-		Vector3 p1  = transform.position + caspule.center + Vector3.up * (-caspule.height*0.5f);
-		Vector3 p2 = p1 + Vector3.up * caspule.height;
 
-		if ( Physics.CapsuleCast(p1, p2, caspule.radius, transform.forward, out hit, 0.1f ) ) {
-			Debug.Log ("Fail");
-			GameObject deadvictim = hit.collider.transform.gameObject;
-			if(deadvictim.CompareTag("Player") && deadvictim.GetComponent<FPSInputController>().win != true)
-			{
-				int playerId = deadvictim.GetComponent<FPSInputController>().PlayerId;
-				gameController.GetComponent<GameController>().HasDied(playerId);
-				
-				deadvictim.tag = "dead";
-				
-				victims = new GameObject[victims.Length -1];
-				victims = GameObject.FindGameObjectsWithTag("Player");
-				
-				isRoaming = true;
-				GetComponent<NavMeshAgent>().speed = walkSpeed;
 
-				deadvictim.GetComponent<FPSInputController>().isKilled = true;
-				
-				Destroy (deadvictim.gameObject);
-			}
 
-		}
+
 
 		//Interact with object in his line of sight
 		/*if(|| 

@@ -14,7 +14,7 @@ public class DoorController : MonoBehaviour {
 		players = GameObject.FindGameObjectsWithTag("Player");
 		enemy = GameObject.FindGameObjectWithTag("Slasher");
 
-		StartCoroutine("Open");
+		//StartCoroutine("Open");
 
 	}
 
