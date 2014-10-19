@@ -111,12 +111,12 @@ public class Menu : MonoBehaviour {
 
 	void renderSettings(){
 		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+50, buttonWidth, buttonHeight);
+		
+		musicVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2-30, 100, 25), musicVol, 0.0f, 1.0f);
+		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2-50, 150,60), "Music: " + (musicVol*100).ToString("f0"));
 
 		sfxVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2+20, 100, 25), sfxVol, 0.0f, 1.0f);
-		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2, 150,60), "Sound Effects: " + (sfxVol*10).ToString("f0"));
-
-		musicVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2-30, 100, 25), musicVol, 0.0f, 1.0f);
-		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2-50, 150,60), "Music: " + (musicVol*10).ToString("f0"));
+		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2, 150,60), "Sound Effects: " + (sfxVol*100).ToString("f0"));
 
 		if(GUI.Button(buttonRect,"Back")){
 			gameController.GetComponent<GameController>().sfxVol = sfxVol;

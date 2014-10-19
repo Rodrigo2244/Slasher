@@ -36,6 +36,14 @@ public class GameController : MonoBehaviour {
 			else
 				break;
 		}
+		foreach(AudioSource scream in screams){
+			scream.volume = sfxVol;
+		}
+
+		violin.volume = sfxVol;
+		gameMusic.volume = musicVol;
+		print (violin.volume);
+		print (gameMusic.volume);
 	}
 
 	public void HasWon(int playerNumber){
