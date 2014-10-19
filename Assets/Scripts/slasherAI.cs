@@ -61,6 +61,34 @@ public class slasherAI : MonoBehaviour {
 			Teleport (Random.Range(0,waypoints.Length));
 		}
 
+
+		RaycastHit hit = new RaycastHit();
+		CapsuleCollider caspule = GetComponent("CapsuleCollider") as CapsuleCollider;
+		Vector3 p1  = transform.position + caspule.center + Vector3.up * (-caspule.height*0.5f);
+		Vector3 p2 = p1 + Vector3.up * caspule.height;
+
+		if ( Physics.CapsuleCast(p1, p2, caspule.radius, transform.forward, out hit, 0.000001f ) ) {
+			Debug.Log ("Fail");
+			GameObject deadvictim = hit.collider.transform.gameObject;
+			if(deadvictim.CompareTag("Player") && deadvictim.GetComponent<FPSInputController>().win != true)
+			{
+				int playerId = deadvictim.GetComponent<FPSInputController>().PlayerId;
+				gameController.GetComponent<GameController>().HasDied(playerId);
+				
+				
+				deadvictim.tag = "dead";
+				
+				victims = new GameObject[victims.Length -1];
+				victims = GameObject.FindGameObjectsWithTag("Player");
+				
+				isRoaming = true;
+				GetComponent<NavMeshAgent>().speed = walkSpeed;
+				
+				Destroy (deadvictim.gameObject);
+			}
+
+		}
+
 		//Interact with object in his line of sight
 		/*if(|| 
 		   Physics.Raycast(transform.position,transform.forward+transform.right,out objectSeen,lineOfSight) ||
@@ -118,7 +146,7 @@ public class slasherAI : MonoBehaviour {
 			yield return 0;
 		}
 	}
-
+	/*
 	void OnTriggerEnter(Collider other)
 	{
 		if(other.CompareTag("Player") && other.GetComponent<FPSInputController>().win != true)
@@ -139,5 +167,5 @@ public class slasherAI : MonoBehaviour {
 
 		}
 			
-	}
+	}*/
 }
