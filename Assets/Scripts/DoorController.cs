@@ -52,7 +52,7 @@ public class DoorController : MonoBehaviour {
 		}
 		foreach(GameObject player in players)
 		{
-			if(Input.GetAxis("Flashlight"+player.GetComponent<FPSInputController>().PlayerId) == 1 && delay != true && (player.transform.position - gameObject.transform.position).magnitude <= 5)
+			if(Input.GetAxis("Door"+player.GetComponent<FPSInputController>().PlayerId) == 1 && delay != true && (player.transform.position - gameObject.transform.position).magnitude <= 10)
 			{
 				delay = true;
 				if(open)
