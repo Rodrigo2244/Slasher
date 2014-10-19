@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class slasherAI : MonoBehaviour {
-
+	public bool wait = false;
+	public GameObject door;
 	GameObject[] waypoints;
 	public GameObject[] victims;
 	public GameObject gameController;
@@ -16,7 +17,7 @@ public class slasherAI : MonoBehaviour {
 	public float lineOfSight;
 	public float walkSpeed;
 	public float runSpeed;
-
+	public float secretSpeed;
 	// Use this for initialization
 	void Start () {
 		gameController = GameObject.Find("Game Controller");
@@ -44,14 +45,28 @@ public class slasherAI : MonoBehaviour {
 					StartCoroutine(Chase (victim.transform.gameObject));
 				}
 			}
+			if ( (victim.transform.position - transform.position).magnitude < 15 )
+			{
+
+			}
 		}
 	}
 	// Update is called once per frame
 	void Update () {
+
+			
+
 		//Roam aimlessly
 		if(isRoaming){
 			idleTime += Time.deltaTime;
 			GetComponent<NavMeshAgent>().speed = walkSpeed;
+			if(wait)
+			{
+				if(door.GetComponent<DoorController>().open)
+					wait = false;
+				else
+					GetComponent<NavMeshAgent>().speed = 0;
+			}
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
 				getWaypoint(Random.Range(0,waypoints.Length));
 			}
