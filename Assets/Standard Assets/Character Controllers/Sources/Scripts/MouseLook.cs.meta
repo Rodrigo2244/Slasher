@@ -4,6 +4,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - ghostPlayer: {fileID: 100000, guid: b89ad8d65647726439f36841441d9ea4, type: 2}
+  - slasher: {fileID: 100000, guid: 17abd5d703981604b858163eed7c1e79, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

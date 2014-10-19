@@ -111,7 +111,6 @@ public class slasherAI : MonoBehaviour {
 				int playerId = deadvictim.GetComponent<FPSInputController>().PlayerId;
 				gameController.GetComponent<GameController>().HasDied(playerId);
 				
-				
 				deadvictim.tag = "dead";
 				
 				victims = new GameObject[victims.Length -1];
@@ -119,6 +118,8 @@ public class slasherAI : MonoBehaviour {
 				
 				isRoaming = true;
 				GetComponent<NavMeshAgent>().speed = walkSpeed;
+
+				deadvictim.GetComponent<FPSInputController>().isKilled = true;
 				
 				Destroy (deadvictim.gameObject);
 			}

@@ -32,7 +32,8 @@ public class MouseLook : MonoBehaviour {
 	float rotationY = 0F;
 
 	public GameObject ghostPlayer;
-
+	public GameObject slasher;
+	public bool isKilled;
 
 	void Update ()
 	{
@@ -69,7 +70,9 @@ public class MouseLook : MonoBehaviour {
 	}
 
 	void OnDestroy(){
-		GameObject ghostClone = (GameObject)Instantiate(ghostPlayer, transform.position, transform.rotation);
-		ghostClone.GetComponent<MouseLook>().PlayerId = PlayerId;
+		/*if(isKilled){
+			GameObject ghostClone = (GameObject)Instantiate(ghostPlayer, transform.position, transform.rotation);
+			ghostClone.GetComponent<MouseLook>().PlayerId = PlayerId;
+		}*/
 	}
 }

@@ -4,6 +4,7 @@ public var isDown : boolean = true;
 public var isPaused : boolean = false;
 public var controller : GameObject;
 public var win : boolean = false;
+public var isKilled : boolean = false;
 // Use this for initialization
 function Awake () {
 	motor = GetComponent(CharacterMotor);
