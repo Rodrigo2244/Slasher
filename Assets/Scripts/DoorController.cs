@@ -42,7 +42,7 @@ public class DoorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
+		players = GameObject.FindGameObjectsWithTag("Player");
 
 		if( (enemy.transform.position - gameObject.transform.position).magnitude <= 2)
 		{

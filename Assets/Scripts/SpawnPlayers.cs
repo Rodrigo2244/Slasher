@@ -6,6 +6,11 @@ public class SpawnPlayers : MonoBehaviour {
 	public GameObject Player;
 	public int playerNum;
 	public GameObject controller;
+	public Material player1Texture;
+	public Material player2Texture;
+	public Material player3Texture;
+	public Material player4Texture;
+
 	// Use this for initialization
 	void Start () {
 		controller = GameObject.Find("Game Controller");
@@ -26,6 +31,14 @@ public class SpawnPlayers : MonoBehaviour {
 				scripts.PlayerId = i;
 			spawnedPlayer.GetComponent<flashlightMechanic>().PlayerId = i;
 			spawnedPlayer.GetComponent <FPSInputController>().PlayerId = i;
+			if(i == 0)
+				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player1Texture;
+			if(i == 1)
+				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player2Texture;
+			if(i == 2)
+				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player3Texture;
+			if(i == 3)
+				spawnedPlayer.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = player4Texture;
 			if(playerNum > 2)
 			{
 				if(spawnedPlayer.GetComponent <FPSInputController>().PlayerId == 0)
