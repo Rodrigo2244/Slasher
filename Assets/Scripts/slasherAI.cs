@@ -21,19 +21,32 @@ public class slasherAI : MonoBehaviour {
 	public bool CanSecret = false;
 	// Use this for initialization
 	void Start () {
+		transform.position = new Vector3 (0, -200, 0);
 		gameController = GameObject.Find("Game Controller");
 		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
 		victims = GameObject.FindGameObjectsWithTag("Player");
 		currentWaypoint = waypoints[Random.Range(0,waypoints.Length)].transform;
 		getWaypoint();
 		isRoaming = true;
+		wait = true;
+		StartCoroutine("Spawn");
+		gameObject.active = false;
+	}
+
+	IEnumerator Spawn(){
+		yield return new WaitForSeconds(10);
+		gameObject.active = true;
+		wait = false;
 		Teleport();
 		teleportTimer = teleportTimerLimit;
 	}
+
 	void FixedUpdate (){
 		CanSecret = true;
 		foreach(GameObject victim in victims){
-			Debug.DrawLine(transform.position,victim.transform.position,Color.red);
+			if (isChasing)
+				Debug.DrawLine(transform.position,victim.transform.position,Color.red);
+
 			if(Physics.Raycast(transform.position,victim.transform.position-transform.position,out objectSeen,200))
 			{
 				if (objectSeen.transform.tag == "Player" && objectSeen.transform.GetComponent<flashlightMechanic>().isLightOn){
@@ -42,10 +55,11 @@ public class slasherAI : MonoBehaviour {
 				}
 			}
 
-			if ( (victim.transform.position - transform.position).magnitude < 6 )
+			if ( (victim.transform.position - transform.position).magnitude < 8 )
 			{
 				if ( victim.transform.tag == "Player" && victim.transform.GetComponent<CharacterMotor>().sprinting ){
 					StartCoroutine(Chase (victim.transform.gameObject));
+					StartCoroutine("StopChase");
 				}
 			}
 			if ( (victim.transform.position - transform.position).magnitude < 15 )
@@ -235,6 +249,7 @@ public class slasherAI : MonoBehaviour {
 	}*/
 
 	IEnumerator Chase(GameObject victim){
+		isChasing = true;
 		if(isRoaming){
 			isRoaming = false;
 			yield return new WaitForSeconds(1);
@@ -245,12 +260,22 @@ public class slasherAI : MonoBehaviour {
 		if(GetComponent<NavMeshAgent>().remainingDistance < 5){
 			StartCoroutine(Chase (victim));
 		} else {
+			isChasing = false;
 			isRoaming = true;
 			teleportTimer = teleportTimerLimit;
 			GetComponent<NavMeshAgent>().speed = walkSpeed;
 			yield return 0;
 		}
 	}
+
+	IEnumerator StopChase(){
+		yield return new WaitForSeconds(5);
+		StopCoroutine("Chase");
+		isRoaming = true;
+		teleportTimer = teleportTimerLimit;
+		GetComponent<NavMeshAgent>().speed = walkSpeed;
+	}
+
 	/*
 	void OnTriggerEnter(Collider other)
 	{
