@@ -28,17 +28,12 @@ public class slasherAI : MonoBehaviour {
 		currentWaypoint = waypoints[Random.Range(0,waypoints.Length)].transform;
 		getWaypoint();
 		isRoaming = true;
-		wait = true;
-		StartCoroutine("Spawn");
-		gameObject.active = false;
-	}
 
-	IEnumerator Spawn(){
-		yield return new WaitForSeconds(10);
-		gameObject.active = true;
 		wait = false;
 		Teleport();
 		teleportTimer = teleportTimerLimit;
+		gameController.GetComponent<GameController> ().StartCoroutine (gameController.GetComponent<GameController> ().SpawnSlasher (gameObject));
+		gameObject.SetActive (false);
 	}
 
 	void FixedUpdate (){

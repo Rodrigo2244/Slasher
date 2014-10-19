@@ -24,6 +24,11 @@ public class GameController : MonoBehaviour {
 		DontDestroyOnLoad(transform.gameObject);
 	}
 
+	public IEnumerator SpawnSlasher(GameObject Slasher){
+		yield return new WaitForSeconds(10);
+		Slasher.SetActive(true);
+	}
+
 	void Update(){
 		for(int i = 0; i < numPlayers; i++){
 			if(hasWon[i] == true || hasDied[i] == true){
@@ -49,4 +54,6 @@ public class GameController : MonoBehaviour {
 		screams[Random.Range (0, screams.Length)].Play();
 		hasDied[playerNumber] = true;
 	}
+
+
 }
