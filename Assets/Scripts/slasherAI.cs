@@ -18,6 +18,7 @@ public class slasherAI : MonoBehaviour {
 	public float walkSpeed;
 	public float runSpeed;
 	public float secretSpeed;
+	public bool CanSecret = false;
 	// Use this for initialization
 	void Start () {
 		gameController = GameObject.Find("Game Controller");
@@ -30,11 +31,14 @@ public class slasherAI : MonoBehaviour {
 		teleportTimer = teleportTimerLimit;
 	}
 	void FixedUpdate (){
+		CanSecret = true;
 		foreach(GameObject victim in victims){
 			Debug.DrawLine(transform.position,victim.transform.position,Color.red);
 			if(Physics.Raycast(transform.position,victim.transform.position-transform.position,out objectSeen,200))
 			{
+
 				if (objectSeen.transform.tag == "Player" && objectSeen.transform.GetComponent<flashlightMechanic>().isLightOn){
+					CanSecret = false;
 					StartCoroutine(Chase (objectSeen.transform.gameObject));
 				}
 			}
@@ -47,7 +51,7 @@ public class slasherAI : MonoBehaviour {
 			}
 			if ( (victim.transform.position - transform.position).magnitude < 15 )
 			{
-
+				CanSecret = false;
 			}
 		}
 	}
@@ -59,7 +63,17 @@ public class slasherAI : MonoBehaviour {
 		//Roam aimlessly
 		if(isRoaming){
 			idleTime += Time.deltaTime;
-			GetComponent<NavMeshAgent>().speed = walkSpeed;
+			if(CanSecret)
+			{
+				GetComponent<NavMeshAgent>().speed = secretSpeed;
+				GetComponent<NavMeshAgent>().acceleration = 16;
+			}
+			else
+			{
+				GetComponent<NavMeshAgent>().speed = walkSpeed;
+				GetComponent<NavMeshAgent>().acceleration = 8;
+			}
+
 			if(wait)
 			{
 				if(door.GetComponent<DoorController>().open)
@@ -67,6 +81,7 @@ public class slasherAI : MonoBehaviour {
 				else
 					GetComponent<NavMeshAgent>().speed = 0;
 			}
+
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 1){
 				getWaypoint(Random.Range(0,waypoints.Length));
 			}
