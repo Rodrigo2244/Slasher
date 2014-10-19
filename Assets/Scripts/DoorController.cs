@@ -14,7 +14,7 @@ public class DoorController : MonoBehaviour {
 		players = GameObject.FindGameObjectsWithTag("Player");
 		enemy = GameObject.FindGameObjectWithTag("Slasher");
 
-		//StartCoroutine("Open");
+		StartCoroutine("Open");
 
 	}
 
@@ -52,7 +52,7 @@ public class DoorController : MonoBehaviour {
 		}
 		foreach(GameObject player in players)
 		{
-			if(Input.GetAxis("Flashlight"+player.GetComponent<FPSInputController>().PlayerId) == 1 && delay != true && (player.transform.position - gameObject.transform.position).magnitude <= 2)
+			if(Input.GetAxis("Flashlight"+player.GetComponent<FPSInputController>().PlayerId) == 1 && delay != true && (player.transform.position - gameObject.transform.position).magnitude <= 5)
 			{
 				delay = true;
 				if(open)
