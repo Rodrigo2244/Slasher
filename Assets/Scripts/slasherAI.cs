@@ -202,7 +202,7 @@ public class slasherAI : MonoBehaviour {
 				GameObject victim = victims[i];
 				i++;
 				
-				if ( ( (victim.transform.position - waypoint.transform.position).magnitude < 30 ) && ( victim.transform.position - waypoint.transform.position).magnitude > 15 ) {
+				if ( ( (victim.transform.position - waypoint.transform.position).magnitude < 50 ) && ( victim.transform.position - waypoint.transform.position).magnitude > 30 ) {
 					GetComponent<NavMeshAgent>().Warp(waypoint.transform.position);
 					teleportTimer = teleportTimerLimit;
 					return;
