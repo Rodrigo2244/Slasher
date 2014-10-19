@@ -33,10 +33,16 @@ public class slasherAI : MonoBehaviour {
 			Debug.DrawLine(transform.position,victim.transform.position,Color.red);
 			if(Physics.Raycast(transform.position,victim.transform.position-transform.position,out objectSeen,200))
 			{
-			
-			if(objectSeen.transform.tag == "Player" && objectSeen.transform.GetComponent<flashlightMechanic>().isLightOn){
-				StartCoroutine(Chase (objectSeen.transform.gameObject));
+				if (objectSeen.transform.tag == "Player" && objectSeen.transform.GetComponent<flashlightMechanic>().isLightOn){
+					StartCoroutine(Chase (objectSeen.transform.gameObject));
+				}
 			}
+
+			if ( (victim.transform.position - transform.position).magnitude < 12 )
+			{
+				if ( victim.transform.tag == "Player" && victim.transform.GetComponent<CharacterMotor>.sprinting ){
+					StartCoroutine(Chase (victim.transform.gameObject));
+				}
 			}
 		}
 	}
