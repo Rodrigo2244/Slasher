@@ -25,9 +25,9 @@ public class slasherAI : MonoBehaviour {
 		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
 		victims = GameObject.FindGameObjectsWithTag("Player");
 		currentWaypoint = waypoints[Random.Range(0,waypoints.Length)].transform;
-		getWaypoint(Random.Range(0,waypoints.Length));
+		getWaypoint();
 		isRoaming = true;
-		Teleport(Random.Range (0,waypoints.Length));
+		Teleport();
 		teleportTimer = teleportTimerLimit;
 	}
 	void FixedUpdate (){
@@ -108,18 +108,18 @@ public class slasherAI : MonoBehaviour {
 			}
 
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 3){
-				getWaypoint(Random.Range(0,waypoints.Length));
+				getWaypoint();
 			}
 			GetComponent<NavMeshAgent>().SetDestination(currentWaypoint.position);
 			if(idleTime >= 200f)
 			{
-				getWaypoint(Random.Range(0,waypoints.Length));
+				getWaypoint();
 			}
 		}
 
 		//Teleport slasher to new location
 		if(teleportTimer == 0){
-			Teleport (Random.Range(0,waypoints.Length));
+			Teleport ();
 		}
 
 
@@ -150,11 +150,10 @@ public class slasherAI : MonoBehaviour {
 	}
 
 	//Get next roam location
-	void getWaypoint(int location){
+	void getWaypoint(){
 		GameObject fallBackWaypoint = null;
 		foreach (GameObject waypoint in waypoints) {
 			if ( (transform.position - waypoint.transform.position).magnitude > 30 ) {
-					Debug.Log("Not close enough");
 					continue;
 			}else{
 				if (currentWaypoint != waypoint.transform) {
@@ -164,21 +163,17 @@ public class slasherAI : MonoBehaviour {
 				}
 			}
 
-			bool closer = false;
 			int i = Random.Range (0, victims.Length);
 			for (int ii = 0; ii < victims.Length; ii++){
 
-				if (i >= victims.Length)
+				if (i >= victims.Length) {
 					i = 0;
+				}
 
 				GameObject victim = victims[i];
-
-				Debug.Log (i);
-
 				i++;
 
 				if ( (victim.transform.position - waypoint.transform.position).magnitude < 10 ) {
-					Debug.Log ("found closer");
 					teleportTimer--; 
 					currentWaypoint = waypoint.transform;
 					return;
@@ -187,15 +182,41 @@ public class slasherAI : MonoBehaviour {
 		}
 
 		if (fallBackWaypoint != null) {
-			Debug.Log ("Not closer");
 			teleportTimer--; 
 			currentWaypoint = fallBackWaypoint.transform;
 			return;
-		} else {
-			Debug.Log ("Failled");
 		}
 	}
-	
+
+
+	void Teleport() {
+		GameObject fallBackWaypoint = null;
+		foreach (GameObject waypoint in waypoints) {
+			int i = Random.Range (0, victims.Length);
+			for (int ii = 0; ii < victims.Length; ii++){
+				
+				if (i >= victims.Length) {
+					i = 0;
+				}
+				
+				GameObject victim = victims[i];
+				i++;
+				
+				if ( ( (victim.transform.position - waypoint.transform.position).magnitude < 20 ) && ( victim.transform.position - waypoint.transform.position).magnitude > 5 ) {
+					GetComponent<NavMeshAgent>().Warp(waypoint.transform.position);
+					teleportTimer = teleportTimerLimit;
+					return;
+				}
+			}
+		}
+
+		fallBackWaypoint = waypoints [Random.Range (0, waypoints.Length)];
+		GetComponent<NavMeshAgent>().Warp(fallBackWaypoint.transform.position);
+		teleportTimer = teleportTimerLimit;
+		return;
+	}
+
+	/*
 	void Teleport(int location){
 		for (int i = 0; i < 5; i++) {
 			foreach(GameObject victim in victims){
@@ -211,7 +232,7 @@ public class slasherAI : MonoBehaviour {
 		GetComponent<NavMeshAgent>().Warp(waypoints[location].transform.position);
 		teleportTimer = teleportTimerLimit;
 		return;
-	}
+	}*/
 
 	IEnumerator Chase(GameObject victim){
 		if(isRoaming){
