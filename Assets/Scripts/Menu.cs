@@ -82,43 +82,43 @@ public class Menu : MonoBehaviour {
 	}
 
 	void renderCharSelect(){
-		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2)-50, (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
-		buttonRect2 = new Rect(Screen.width / 2 - (buttonWidth / 2)+50, (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
+		buttonRect = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2), menuButtonWidth, buttonHeight);
+		buttonRect2 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+100, menuButtonWidth, buttonHeight);
 
-		if (GUI.Button(new Rect(Screen.width /2 - 450, Screen.height / 2, 300, 50), "More Victims",buttons)){
+		if (GUI.Button(new Rect(Screen.width /2 +200, Screen.height / 2, 300, 50), "More Victims",buttons)){
 			if(numPlayers < maxPlayers)
 				numPlayers++;
 		}
-		if (GUI.Button(new Rect(Screen.width / 2 + 200, Screen.height / 2, 300, 50), "Less Victims",buttons)){
+		if (GUI.Button(new Rect(Screen.width / 2 -450, Screen.height / 2, 300, 50), "Less Victims",buttons)){
 			if(numPlayers > minPlayers)
 				numPlayers--;
 		}
 
 		GUI.Label(new Rect(Screen.width / 2-50, Screen.height /2-50,100,100), "Players Selected: "+numPlayers, normal);
 
-		if(GUI.Button(new Rect(Screen.width/2-50, Screen.height/2+150,100,50),"Back",normal)){
-			currentMenu = Menus.Main;
-		}
-
-		if(GUI.Button(new Rect(Screen.width/2-50, Screen.height/2+100,100,50),"Play",normal)){
+		
+		if(GUI.Button(buttonRect,"Play",buttons)){
 			gameController.GetComponent<GameController>().numPlayers = numPlayers;
 			Camera.main.animation.Play ("gameStart");
 			StartCoroutine(Begin ());
 		}
+		if(GUI.Button(buttonRect2,"Back",buttons)){
+			currentMenu = Menus.Main;
+		}
 	}
 
 	void renderSettings(){
-		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2)-100, (2 * Screen.height / 3) - (buttonHeight / 2)+50, buttonWidth, buttonHeight);
-		buttonRect2 = new Rect(Screen.width / 2 - (buttonWidth / 2)+100, (2 * Screen.height / 3) - (buttonHeight / 2)+50, buttonWidth, buttonHeight);
+		buttonRect = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2), menuButtonWidth, buttonHeight);
+		buttonRect2 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+100, menuButtonWidth, buttonHeight);
 		
-		masterVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2-30, 100, 25), masterVol, 0.0f, 1.0f);
-		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2-50, 150,60), "Master Volume: " + (masterVol*100).ToString("f0"));
+		masterVol = GUI.HorizontalSlider(new Rect(Screen.width/2-50, Screen.height/2-30, 150, 25), masterVol, 0.0f, 1.0f);
+		GUI.Label(new Rect(Screen.width/2-50, Screen.height/2-75, 150,60), "Master Volume: " + (masterVol*100).ToString("f0"),normal);
 
-		if(GUI.Button(buttonRect,"Back")){
-			currentMenu = Menus.Main;
-		}
-		if(GUI.Button(buttonRect2,"Apply")){
+		if(GUI.Button(buttonRect,"Apply",buttons)){
 			gameController.GetComponent<GameController>().masterVol = masterVol;
+		}
+		if(GUI.Button(buttonRect2,"Back",buttons)){
+			currentMenu = Menus.Main;
 		}
 	}
 

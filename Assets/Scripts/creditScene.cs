@@ -66,7 +66,6 @@ public class creditScene : MonoBehaviour {
 		yield return new WaitForSeconds(4);
 		personName.text = "";
 		description.text = "";
-		yield return new WaitForSeconds(4);
 
 		Application.LoadLevel(0);
 	}

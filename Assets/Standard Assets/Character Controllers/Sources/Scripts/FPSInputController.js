@@ -4,6 +4,7 @@ public var isDown : boolean = true;
 public var isPaused : boolean = false;
 public var controller : GameObject;
 public var win : boolean = false;
+public var buttons : GUIStyle;
 
 // Use this for initialization
 function Awake () {
@@ -53,7 +54,7 @@ function OnGUI(){
 		isDown = true;
 	}
 	if(isPaused){
-		if(GUI.Button(new Rect (Screen.width/2-60, Screen.height/2-30, 120,60), "Return to Menu")){
+		if(GUI.Button(new Rect (Screen.width/2-150, Screen.height/2-30, 300,60), "Return to Menu", buttons)){
 			Destroy(controller);
 			Application.LoadLevel("Menus");
 		}
