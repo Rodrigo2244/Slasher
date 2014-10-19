@@ -6,29 +6,37 @@ public class DoorController : MonoBehaviour {
 	public bool delay = false;
 	public GameObject[] players;
 	public GameObject enemy;
+	public AudioSource doorClose;
+	public AudioSource doorOpen;
+
 	// Use this for initialization
 	void Start () {
 		players = GameObject.FindGameObjectsWithTag("Player");
 		enemy = GameObject.FindGameObjectWithTag("Slasher");
+
+		StartCoroutine("Open");
+
 	}
 
 	public IEnumerator Open () {
 		animation["Door Open"].speed = 1;
 		animation.Play("Door Open");
+		doorOpen.Play ();
 		yield return new WaitForSeconds( animation["Door Open"].length );
 		delay = false;
 		open = true;
-		Debug.Log ("Open");
 	}
 
 	public IEnumerator Close () {
 		animation ["Door Open"].speed = -1;
+		animation ["Door Open"].time = animation ["Door Open"].length;
 		animation.Play("Door Open");
+		doorClose.Play ();
 		yield return new WaitForSeconds( animation["Door Open"].length );
 		delay = false;
 		open = false;
-		Debug.Log ("Closed");
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -49,16 +57,14 @@ public class DoorController : MonoBehaviour {
 				delay = true;
 				if(open)
 				{
-					open = false;
+					Debug.Log ("Closed");
 					StartCoroutine("Close");
-					Debug.Log ("Actually Did something");
 
 				}
 				else
 				{
-					open = true;
+					Debug.Log ("Open");
 					StartCoroutine("Open");
-
 				}
 			}
 		}
