@@ -36,7 +36,6 @@ public class slasherAI : MonoBehaviour {
 			Debug.DrawLine(transform.position,victim.transform.position,Color.red);
 			if(Physics.Raycast(transform.position,victim.transform.position-transform.position,out objectSeen,200))
 			{
-
 				if (objectSeen.transform.tag == "Player" && objectSeen.transform.GetComponent<flashlightMechanic>().isLightOn){
 					CanSecret = false;
 					StartCoroutine(Chase (objectSeen.transform.gameObject));
@@ -61,7 +60,6 @@ public class slasherAI : MonoBehaviour {
 		
 		RaycastHit[] hitArray = Physics.CapsuleCastAll(p1, p2, caspule.radius, transform.forward, 0.1f);
 		//RaycastHit hit = new RaycastHit();
-		Debug.Log ("Fail");
 		foreach(RaycastHit hit in hitArray)
 		{
 		
@@ -153,12 +151,41 @@ public class slasherAI : MonoBehaviour {
 
 	//Get next roam location
 	void getWaypoint(int location){
-		if(Vector3.Distance(transform.position,waypoints[location].transform.position) <= 10){
+		GameObject fallBackWaypoint = null;
+		foreach (GameObject waypoint in waypoints) {
+			if ( (transform.position - waypoint.transform.position).magnitude > 30 ) {
+					Debug.Log("Not close enough");
+					continue;
+			}else{
+				if (currentWaypoint != waypoint.transform) {
+					fallBackWaypoint = waypoint;
+				}else{
+					continue;
+				}
+			}
+
+			bool closer = false;
+
+			foreach (GameObject victim in victims) {
+				if ( (victim.transform.position - waypoint.transform.position).magnitude < 10 ) {
+					Debug.Log ("found closer");
+					teleportTimer--; 
+					currentWaypoint = waypoint.transform;
+					return;
+				}
+			}
+		}
+
+		if (fallBackWaypoint != null) {
+			Debug.Log ("Not closer");
 			teleportTimer--; 
-			currentWaypoint = waypoints[location].transform;
+			currentWaypoint = fallBackWaypoint.transform;
+			return;
+		} else {
+			Debug.Log ("Failled");
 		}
 	}
-
+	
 	void Teleport(int location){
 		for (int i = 0; i < 5; i++) {
 			foreach(GameObject victim in victims){
