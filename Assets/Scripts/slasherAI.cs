@@ -80,7 +80,7 @@ public class slasherAI : MonoBehaviour {
 				
 				deadvictim.tag = "dead";
 				
-				victims = new GameObject[victims.Length -1];
+				victims = new GameObject[victims.Length ];
 				victims = GameObject.FindGameObjectsWithTag("Player");
 				
 				isRoaming = true;
@@ -249,8 +249,11 @@ public class slasherAI : MonoBehaviour {
 			isRoaming = false;
 			yield return new WaitForSeconds(1);
 		}
+		if(victim != null)
+		{
 		GetComponent<NavMeshAgent>().speed = runSpeed;
 		GetComponent<NavMeshAgent>().SetDestination(victim.transform.position);
+		}
 		yield return 0;
 		if(GetComponent<NavMeshAgent>().remainingDistance < 5){
 			StartCoroutine(Chase (victim));
