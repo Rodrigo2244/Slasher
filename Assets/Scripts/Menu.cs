@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Menu : MonoBehaviour {
 
-	public GUIStyle style;
+	public GUIStyle buttons;
+	public GUIStyle normal;
 	public bool isBegin;
 	public GUIText story;
 
@@ -27,8 +28,6 @@ public class Menu : MonoBehaviour {
 
 	public float sfxVol = 0.5f;
 	public float musicVol = 0.5f;
-
-	public Texture[] buttonTextures;
 
 	// Use this for initialization
 	void Start () {
@@ -70,16 +69,16 @@ public class Menu : MonoBehaviour {
 		buttonRect3 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2), menuButtonWidth, buttonHeight);
 		buttonRect4 = new Rect(Screen.width / 2 - (menuButtonWidth / 2), (2 * Screen.height / 3) - (buttonHeight / 2)+70, menuButtonWidth, buttonHeight);
 		
-		if(GUI.Button(buttonRect,"Play",style)){
+		if(GUI.Button(buttonRect,"Play",buttons)){
 			currentMenu = Menus.CharSelect;
 		}
-		if(GUI.Button(buttonRect2,"Credits",style)){
+		if(GUI.Button(buttonRect2,"Credits",buttons)){
 			Application.LoadLevel("Credits");
 		}
-		if(GUI.Button(buttonRect3,"Settings",style)){
+		if(GUI.Button(buttonRect3,"Settings",buttons)){
 			currentMenu = Menus.Settings;
 		}
-		if(GUI.Button(buttonRect4,"Quit",style)){
+		if(GUI.Button(buttonRect4,"Quit",buttons)){
 			Application.Quit();
 		}
 	}
@@ -88,21 +87,22 @@ public class Menu : MonoBehaviour {
 		buttonRect = new Rect(Screen.width / 2 - (buttonWidth / 2)-50, (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
 		buttonRect2 = new Rect(Screen.width / 2 - (buttonWidth / 2)+50, (2 * Screen.height / 3) - (buttonHeight / 2), buttonWidth, buttonHeight);
 
-		if (GUI.Button(new Rect(Screen.width / 2 +40, (2 * Screen.height / 3)-150, 50, 50), "+")){
+		if (GUI.Button(new Rect(Screen.width /2 - 450, Screen.height / 2, 300, 50), "More Victims",buttons)){
 			if(numPlayers < maxPlayers)
 				numPlayers++;
 		}
-		if (GUI.Button(new Rect(Screen.width / 2 + 40, (2 * Screen.height / 3)-100, 50, 50), "-")){
+		if (GUI.Button(new Rect(Screen.width / 2 + 200, Screen.height / 2, 300, 50), "Less Victims",buttons)){
 			if(numPlayers > minPlayers)
 				numPlayers--;
 		}
 
-		GUI.Label(new Rect(Screen.width / 2 - (buttonWidth / 2)-40, (2 * Screen.height / 3) - (buttonHeight / 2)-100,100,100), "Players Selected: "+numPlayers);
+		GUI.Label(new Rect(Screen.width / 2-50, Screen.height /2-50,100,100), "Players Selected: "+numPlayers, normal);
 
-		if(GUI.Button(buttonRect,"Back")){
+		if(GUI.Button(new Rect(Screen.width/2-50, Screen.height/2+150,100,50),"Back",normal)){
 			currentMenu = Menus.Main;
 		}
-		if(GUI.Button(buttonRect2,"Play")){
+
+		if(GUI.Button(new Rect(Screen.width/2-50, Screen.height/2+100,100,50),"Play",normal)){
 			gameController.GetComponent<GameController>().numPlayers = numPlayers;
 			Camera.main.animation.Play ("gameStart");
 			StartCoroutine(Begin ());
