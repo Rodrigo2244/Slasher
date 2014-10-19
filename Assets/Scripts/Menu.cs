@@ -65,7 +65,7 @@ public class Menu : MonoBehaviour {
 			currentMenu = Menus.CharSelect;
 		}
 		if(GUI.Button(buttonRect2,"Credits",style)){
-			//Application.LoadLevel("Credits");
+			Application.LoadLevel("Credits");
 		}
 		if(GUI.Button(buttonRect3,"Settings",style)){
 			currentMenu = Menus.Settings;
