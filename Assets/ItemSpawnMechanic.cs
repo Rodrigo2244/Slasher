@@ -11,9 +11,13 @@ public class ItemSpawnMechanic : MonoBehaviour {
 	void Start () {
 
 		spawnPoints = GameObject.FindGameObjectsWithTag("ItemSpawn");
-
-		foreach(GameObject point in spawnPoints){
-			Instantiate(itemList[Random.Range(0,itemList.Length)],point.transform.position,point.transform.rotation);
+		if (itemList.Length != 0) {
+			if (spawnPoints.Length != 0) {
+				foreach (GameObject point in spawnPoints) {
+					GameObject item = itemList [Random.Range (0, itemList.Length)];
+					Instantiate (item, point.transform.position, point.transform.rotation);
+				}
+			}
 		}
 	}
 }
