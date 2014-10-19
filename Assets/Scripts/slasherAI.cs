@@ -40,7 +40,7 @@ public class slasherAI : MonoBehaviour {
 
 			if ( (victim.transform.position - transform.position).magnitude < 12 )
 			{
-				if ( victim.transform.tag == "Player" && victim.transform.GetComponent<CharacterMotor>.sprinting ){
+				if ( victim.transform.tag == "Player" && victim.transform.GetComponent<CharacterMotor>().sprinting ){
 					StartCoroutine(Chase (victim.transform.gameObject));
 				}
 			}
