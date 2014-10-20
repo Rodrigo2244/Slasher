@@ -3,7 +3,6 @@ using System.Collections;
 
 public class slasherAI : MonoBehaviour {
 	public bool wait = false;
-	public GameObject door;
 	GameObject[] waypoints;
 	public GameObject[] victims;
 	public GameObject gameController;
@@ -92,10 +91,6 @@ public class slasherAI : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-
-		if (door != null)
-			if(wait && door.GetComponent<DoorController>().open)
-				wait = false;
 			
 			//Roam aimlessly
 		if(isRoaming){
@@ -109,11 +104,6 @@ public class slasherAI : MonoBehaviour {
 			{
 				GetComponent<NavMeshAgent>().speed = walkSpeed;
 				GetComponent<NavMeshAgent>().acceleration = 8;
-			}
-
-			if(wait && !door.GetComponent<DoorController>().open)
-			{
-				GetComponent<NavMeshAgent>().speed = 0;
 			}
 
 			if(Vector3.Distance(currentWaypoint.position,transform.position) < 3){
@@ -130,30 +120,6 @@ public class slasherAI : MonoBehaviour {
 		if(teleportTimer == 0){
 			Teleport ();
 		}
-
-
-
-
-
-
-
-		//Interact with object in his line of sight
-		/*if(|| 
-		   Physics.Raycast(transform.position,transform.forward+transform.right,out objectSeen,lineOfSight) ||
-		   Physics.Raycast(transform.position,transform.forward-transform.right,out objectSeen,lineOfSight)) && isRoaming){
-
-		}*/
-
-
-			
-			//if(Vector3.Distance(victim.transform.position,transform.position) < 10 && Physics.Raycast(transform.position,-(transform.position+victim.transform.position).normalized)){
-			//}
-
-
-	//	Debug.DrawRay(transform.position,transform.forward*lineOfSight,Color.red);
-		//Debug.DrawRay(transform.position,transform.forward+transform.right*lineOfSight,Color.red);
-		//Debug.DrawRay(transform.position,transform.forward-transform.right*lineOfSight,Color.red);
-		//Debug.DrawRay(transform.position,(transform.position+victims[0].transform.position).normalized,Color.blue);
 		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
 
 	}
@@ -225,24 +191,6 @@ public class slasherAI : MonoBehaviour {
 		return;
 	}
 
-	/*
-	void Teleport(int location){
-		for (int i = 0; i < 5; i++) {
-			foreach(GameObject victim in victims){
-				if(Vector3.Distance(victim.transform.position,waypoints[location].transform.position)<20 && Vector3.Distance(victim.transform.position,waypoints[location].transform.position)>5){
-					GetComponent<NavMeshAgent>().Warp(waypoints[location].transform.position);
-					teleportTimer = teleportTimerLimit;
-					return;
-				}
-			}
-		}
-
-		location = Random.Range (0, waypoints.Length);
-		GetComponent<NavMeshAgent>().Warp(waypoints[location].transform.position);
-		teleportTimer = teleportTimerLimit;
-		return;
-	}*/
-
 	IEnumerator Chase(GameObject victim){
 		isChasing = true;
 		if(isRoaming){
@@ -273,27 +221,4 @@ public class slasherAI : MonoBehaviour {
 		teleportTimer = teleportTimerLimit;
 		GetComponent<NavMeshAgent>().speed = walkSpeed;
 	}
-
-	/*
-	void OnTriggerEnter(Collider other)
-	{
-		if(other.CompareTag("Player") && other.GetComponent<FPSInputController>().win != true)
-		{
-			int playerId = other.GetComponent<FPSInputController>().PlayerId;
-			gameController.GetComponent<GameController>().HasDied(playerId);
-
-
-			other.tag = "dead";
-
-			victims = new GameObject[victims.Length -1];
-			victims = GameObject.FindGameObjectsWithTag("Player");
-
-			isRoaming = true;
-			GetComponent<NavMeshAgent>().speed = walkSpeed;
-
-			Destroy (other.gameObject);
-
-		}
-			
-	}*/
 }
