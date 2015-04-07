@@ -74,8 +74,8 @@ public class SpawnPlayers : MonoBehaviour {
 				spawnedPlayer.GetComponentInChildren<Camera>().rect = new Rect(0,0,1,1);
 			}
 
-		
-			Debug.Log (respawns[index].name);
+			Screen.showCursor = false;
+
 			respawns.RemoveAt(index);
 		}
 	}

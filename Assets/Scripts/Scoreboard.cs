@@ -16,6 +16,8 @@ public class Scoreboard : MonoBehaviour {
 		numPlayers = gameController.GetComponent<GameController>().numPlayers;
 		hasWon = gameController.GetComponent<GameController>().hasWon;
 		hasDied = gameController.GetComponent<GameController>().hasDied;
+		Screen.showCursor = true;
+		Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame

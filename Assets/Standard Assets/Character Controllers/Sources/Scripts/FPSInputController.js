@@ -38,24 +38,27 @@ function Update () {
 	// Apply the direction to the CharacterMotor
 	motor.inputMoveDirection = transform.rotation * directionVector;
 	//motor.inputJump = Input.GetButton("Jump");
+	
+	if(Input.GetButtonDown("Pause")){
+		if(isPaused){
+			Screen.showCursor = false;
+			isPaused = false;
+			Time.timeScale = 1;
+		}
+		else{
+			isPaused = true;
+			Screen.showCursor = true;
+			Time.timeScale = 0;
+		}
+		controller.GetComponent("GameController").isPaused = isPaused;
+	}
 }
 
 function OnGUI(){
-	if(Input.GetAxis("Pause") == 1 && isDown){
-		isDown = false;
-		if(isPaused){
-			isPaused = false;
-		}
-		else
-			isPaused = true;
-		controller.GetComponent("GameController").isPaused = isPaused;
-	}
-	if(Input.GetAxis("Pause") == 0){
-		isDown = true;
-	}
 	if(isPaused){
-		if(GUI.Button(new Rect (Screen.width/2-150, Screen.height/2-30, 300,60), "Return to Menu", buttons)){
+		if(GUI.Button(new Rect (1061/2-150, 597/2-30, 300,60), "Return to Menu", buttons)){
 			Destroy(controller);
+			Time.timeScale = 1;
 			Application.LoadLevel("Menus");
 		}
 	}
@@ -66,6 +69,9 @@ function OnTriggerEnter(other : Collider)
 	{
 		win = true;
 		controller.GetComponent("GameController").HasWon(PlayerId);
+		transform.GetChild(0).gameObject.SetActive(false);
+		transform.GetChild(1).gameObject.SetActive(false);
+		transform.GetChild(2).gameObject.SetActive(false);
 	}
 }
 // Require a character controller to be attached to the same game object

@@ -86,7 +86,7 @@ public class slasherAI : MonoBehaviour {
 				isRoaming = true;
 				GetComponent<NavMeshAgent>().speed = walkSpeed;
 
-				Destroy (deadvictim.gameObject);
+				deadvictim.gameObject.SetActive(false);
 			}
 		}
 	}
@@ -221,5 +221,25 @@ public class slasherAI : MonoBehaviour {
 		isRoaming = true;
 		teleportTimer = teleportTimerLimit;
 		GetComponent<NavMeshAgent>().speed = walkSpeed;
+	}
+
+	void OnTriggerStay(Collider col){
+		
+		GameObject deadvictim = col.gameObject;
+		if(deadvictim.CompareTag("Player") && deadvictim.GetComponent<FPSInputController>().win != true)
+		{
+			int playerId = deadvictim.GetComponent<FPSInputController>().PlayerId;
+			gameController.GetComponent<GameController>().HasDied(playerId);
+			
+			deadvictim.tag = "dead";
+			
+			victims = new GameObject[victims.Length ];
+			victims = GameObject.FindGameObjectsWithTag("Player");
+			
+			isRoaming = true;
+			GetComponent<NavMeshAgent>().speed = walkSpeed;
+			
+			Destroy (deadvictim.gameObject);
+		}
 	}
 }
