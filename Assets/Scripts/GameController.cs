@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
 	public int numPlayers;
-	public float masterVol;
 	public bool isPaused;
 	public bool isLoaded = false;
+
+	public GameObject numDisplay;
 
 	public bool[] hasWon;
 	public bool[] hasDied;
@@ -37,12 +39,22 @@ public class GameController : MonoBehaviour {
 					isLoaded = true;
 				}
 			}
-			else
-				break;
 		}
+		if(numDisplay != null){
+			numDisplay.GetComponent<Text>().text = numPlayers.ToString();
+		}	
+	}
 
-		AudioListener.volume = masterVol;
+	public void More(){
+		if(numPlayers != 4){
+			numPlayers++;
+		}
+	}
 
+	public void Less(){
+		if(numPlayers != 1){
+			numPlayers--;
+		}
 	}
 
 	public void HasWon(int playerNumber){
@@ -54,6 +66,4 @@ public class GameController : MonoBehaviour {
 		screams[Random.Range (0, screams.Length)].Play();
 		hasDied[playerNumber] = true;
 	}
-
-
 }
