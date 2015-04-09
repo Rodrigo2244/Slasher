@@ -1,7 +1,6 @@
 private var motor : CharacterMotor;
 public  var PlayerId : int;
 public var isDown : boolean = true;
-public var isPaused : boolean = false;
 public var controller : GameObject;
 public var win : boolean = false;
 public var buttons : GUIStyle;
@@ -39,30 +38,8 @@ function Update () {
 	motor.inputMoveDirection = transform.rotation * directionVector;
 	//motor.inputJump = Input.GetButton("Jump");
 	
-	if(Input.GetButtonDown("Pause")){
-		if(isPaused){
-			Screen.showCursor = false;
-			isPaused = false;
-			Time.timeScale = 1;
-		}
-		else{
-			isPaused = true;
-			Screen.showCursor = true;
-			Time.timeScale = 0;
-		}
-		controller.GetComponent("GameController").isPaused = isPaused;
-	}
 }
 
-function OnGUI(){
-	if(isPaused){
-		if(GUI.Button(new Rect (1061/2-150, 597/2-30, 300,60), "Return to Menu", buttons)){
-			Destroy(controller);
-			Time.timeScale = 1;
-			Application.LoadLevel("Menus");
-		}
-	}
-}
 function OnTriggerEnter(other : Collider)
 {
 	if(other.CompareTag("Win"))

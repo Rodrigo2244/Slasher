@@ -19,6 +19,12 @@ public class GameController : MonoBehaviour {
 
 	public AudioSource[] screams;
 
+	void Start(){
+		if(GameObject.Find("Player Num Text") != null){
+			numDisplay = GameObject.Find("Player Num Text");
+		}
+	}
+
 	void Awake(){
 		hasWon = new bool[4];
 		hasDied = new bool[4];
@@ -46,7 +52,41 @@ public class GameController : MonoBehaviour {
 			}else{
 				numDisplay.GetComponent<Text>().text = numPlayers.ToString()+" Victims";
 			}
-		}	
+		}
+
+		if(Input.GetButtonDown("Pause") && Application.loadedLevel != 1){
+			if(isPaused){
+				transform.GetChild(0).gameObject.SetActive(false);
+				Screen.showCursor = false;
+				isPaused = false;
+				Time.timeScale = 1;
+			}else{
+				transform.GetChild(0).gameObject.SetActive(true);
+				isPaused = true;
+				Screen.showCursor = true;
+				Time.timeScale = 0;
+			}
+		}
+	}
+
+	public void Continue(){
+		if(isPaused){
+			transform.GetChild(0).gameObject.SetActive(false);
+			Screen.showCursor = false;
+			isPaused = false;
+			Time.timeScale = 1;
+		}else{
+			transform.GetChild(0).gameObject.SetActive(true);
+			isPaused = true;
+			Screen.showCursor = true;
+			Time.timeScale = 0;
+		}
+	}
+	
+	public void Quit(){
+		Time.timeScale = 1;
+		Application.LoadLevel(1);
+		Destroy(this.gameObject);
 	}
 
 	public void More(){
