@@ -41,7 +41,11 @@ public class GameController : MonoBehaviour {
 			}
 		}
 		if(numDisplay != null){
-			numDisplay.GetComponent<Text>().text = numPlayers.ToString();
+			if(numPlayers == 1){
+				numDisplay.GetComponent<Text>().text = numPlayers.ToString()+" Victim";
+			}else{
+				numDisplay.GetComponent<Text>().text = numPlayers.ToString()+" Victims";
+			}
 		}	
 	}
 
