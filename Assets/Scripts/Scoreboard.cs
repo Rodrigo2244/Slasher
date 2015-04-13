@@ -37,7 +37,7 @@ public class Scoreboard : MonoBehaviour {
 		}
 		if(GUI.Button(buttonRect,"Return to Menu",gui)){
 			Destroy (gameController);
-			Application.LoadLevel("Menus");
+			Application.LoadLevel("Main Menu");
 		}
 	}
 

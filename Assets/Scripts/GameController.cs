@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 	public int numPlayers;
 	public bool isPaused;
 	public bool isLoaded = false;
+	public bool changedAudio = false;
 
 	public GameObject numDisplay;
 
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour {
 	public AudioSource gameMusic;
 
 	public AudioSource violin;
+	public AudioClip altSound;
 
 	public AudioSource[] screams;
 
@@ -23,6 +25,8 @@ public class GameController : MonoBehaviour {
 		if(GameObject.Find("Player Num Text") != null){
 			numDisplay = GameObject.Find("Player Num Text");
 		}
+
+		Screen.showCursor = false;
 	}
 
 	void Awake(){
@@ -43,6 +47,7 @@ public class GameController : MonoBehaviour {
 				if(i == numPlayers - 1 && !isLoaded){
 					Application.LoadLevel("Scoreboard");
 					isLoaded = true;
+					changedAudio = false;
 				}
 			}
 		}
@@ -55,30 +60,25 @@ public class GameController : MonoBehaviour {
 		}
 
 		if(Input.GetButtonDown("Pause") && Application.loadedLevel != 1){
-			if(isPaused){
-				transform.GetChild(0).gameObject.SetActive(false);
-				Screen.showCursor = false;
-				isPaused = false;
-				Time.timeScale = 1;
-			}else{
-				transform.GetChild(0).gameObject.SetActive(true);
-				isPaused = true;
-				Screen.showCursor = true;
-				Time.timeScale = 0;
-			}
+			Pause();
+		}
+
+		if(Application.loadedLevel > 4 && numPlayers == 1 && GameObject.Find("Slasher")!=null && !changedAudio){
+			GameObject.Find("AudioListener").GetComponent<AudioListener>().enabled = false;
+			GameObject.FindGameObjectWithTag("Player").GetComponent<AudioListener>().enabled = true;
+			GameObject.Find("Slasher").transform.GetChild(0).gameObject.GetComponent<AudioSource>().clip = altSound;
+			changedAudio = true;
 		}
 	}
 
-	public void Continue(){
+	public void Pause(){
 		if(isPaused){
 			transform.GetChild(0).gameObject.SetActive(false);
-			Screen.showCursor = false;
 			isPaused = false;
 			Time.timeScale = 1;
 		}else{
 			transform.GetChild(0).gameObject.SetActive(true);
 			isPaused = true;
-			Screen.showCursor = true;
 			Time.timeScale = 0;
 		}
 	}

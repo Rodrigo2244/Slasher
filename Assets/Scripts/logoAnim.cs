@@ -17,6 +17,6 @@ public class logoAnim : MonoBehaviour {
 
 	IEnumerator startGame(){
 		yield return new WaitForSeconds(7);
-		Application.LoadLevel("Menus");
+		Application.LoadLevel("Main Menu");
 	}
 }
