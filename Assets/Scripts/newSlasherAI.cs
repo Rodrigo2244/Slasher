@@ -35,7 +35,12 @@ public class newSlasherAI : MonoBehaviour {
 
 		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
 		foreach(GameObject victim in victims){
-			Debug.DrawLine(transform.position,victim.transform.position,Color.yellow);
+			if(targetVictim == victim){
+				Debug.DrawLine(transform.position,victim.transform.position,Color.red);
+			}else{
+				Debug.DrawLine(transform.position,victim.transform.position,Color.yellow);
+			}
+
 			if(Vector3.Distance(transform.position,victim.transform.position) <= 1){
 				Kill(victim);
 			}
