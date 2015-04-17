@@ -52,7 +52,7 @@ public class slasherAI : MonoBehaviour {
 			if((victim.transform.position - transform.position).magnitude < 8){
 				if(victim.transform.tag == "Player" && victim.transform.GetComponent<CharacterMotor>().sprinting){
 					StartCoroutine(Chase(victim.transform.gameObject));
-					StartCoroutine("StopChase");
+					StartCoroutine(StopChase());
 				}
 			}
 			if ((victim.transform.position - transform.position).magnitude < 15){
@@ -221,6 +221,9 @@ public class slasherAI : MonoBehaviour {
 			GetComponent<NavMeshAgent>().speed = walkSpeed;
 			
 			Destroy(deadvictim.gameObject);
+
+			StartCoroutine(StopChase());
+			getWaypoint();
 		}
 	}
 }

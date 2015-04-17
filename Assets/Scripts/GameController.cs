@@ -42,15 +42,15 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update(){
-		for(int i = 0; i < numPlayers; i++){
-			if(hasWon[i] == true || hasDied[i] == true){
-				if(i == numPlayers - 1 && !isLoaded){
-					Application.LoadLevel("Scoreboard");
-					isLoaded = true;
-					changedAudio = false;
-				}
+
+		if((hasWon[0] == true || hasDied[0] == true) && (hasWon[1] == true || hasDied[1] == true) && (hasWon[2] == true || hasDied[2] == true) && (hasWon[3] == true || hasDied[3] == true)){
+			if(!isLoaded){
+				Application.LoadLevel("Scoreboard");
+				isLoaded = true;
+				changedAudio = false;
 			}
 		}
+
 		if(numDisplay != null){
 			if(numPlayers == 1){
 				numDisplay.GetComponent<Text>().text = numPlayers.ToString()+" Victim";
@@ -68,6 +68,7 @@ public class GameController : MonoBehaviour {
 			GameObject.FindGameObjectWithTag("Player").GetComponent<AudioListener>().enabled = true;
 			GameObject.Find("Slasher").transform.GetChild(0).gameObject.GetComponent<AudioSource>().clip = altSound;
 			changedAudio = true;
+			GameObject.Find("Slasher").transform.GetChild(0).gameObject.GetComponent<AudioSource>().Play();
 		}
 	}
 

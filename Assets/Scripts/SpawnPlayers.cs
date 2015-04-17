@@ -13,8 +13,10 @@ public class SpawnPlayers : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		controller = GameObject.Find("Game Controller");
-		playerNum = controller.GetComponent <GameController>().numPlayers;
+		if(GameObject.Find("Game Controller") != null){
+			controller = GameObject.Find("Game Controller");
+			playerNum = controller.GetComponent <GameController>().numPlayers;
+		}
 		var respawns = new List<GameObject>();
 
 		foreach (GameObject respawn in GameObject.FindGameObjectsWithTag ("Respawn")) {
