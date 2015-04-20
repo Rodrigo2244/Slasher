@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class newSlasherAI : MonoBehaviour {
-	NavMeshAgent agent;
-	GameObject[] waypoints;
+	public NavMeshAgent agent;
+	public GameObject[] waypoints;
 	public GameObject[] victims;
 	public GameObject gameController;
 	public Transform currentWaypoint;
@@ -20,19 +21,17 @@ public class newSlasherAI : MonoBehaviour {
 	// Use this for initialization
 	void Start(){
 		agent = GetComponent<NavMeshAgent>();
-		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
-		gameController = GameObject.Find("Game Controller");
-		targetVictim = null;
-		getVictims();
-		getWaypoint();
 		transform.position = waypoints[Random.Range(0,waypoints.Length-1)].transform.position;
+		gameController = GameObject.Find("Game Controller");
+		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+		getVictims();
+		targetVictim = null;
+		getWaypoint();
 		agent.speed = walkSpeed;
-
 	}
 
 	// Update is called once per frame
 	void Update(){
-
 		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
 		foreach(GameObject victim in victims){
 			if(targetVictim == victim){
@@ -60,6 +59,7 @@ public class newSlasherAI : MonoBehaviour {
 	}
 
 	void getVictims(){
+		victims = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
 		victims = GameObject.FindGameObjectsWithTag("Player");
 		Debug.Log("Got victims");
 		if(victims.Length == 0){
