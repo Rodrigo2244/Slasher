@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
 
 		if((hasWon[0] == true || hasDied[0] == true) && (hasWon[1] == true || hasDied[1] == true) && (hasWon[2] == true || hasDied[2] == true) && (hasWon[3] == true || hasDied[3] == true)){
 			if(!isLoaded){
-				Application.LoadLevel("Scoreboard");
+				Application.LoadLevel("Main Menu");
 				isLoaded = true;
 				changedAudio = false;
 			}

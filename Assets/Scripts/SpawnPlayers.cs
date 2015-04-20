@@ -17,16 +17,15 @@ public class SpawnPlayers : MonoBehaviour {
 			controller = GameObject.Find("Game Controller");
 			playerNum = controller.GetComponent <GameController>().numPlayers;
 		}
-		var respawns = new List<GameObject>();
+		List<GameObject> respawns = new List<GameObject>();
 
-		foreach (GameObject respawn in GameObject.FindGameObjectsWithTag ("Respawn")) {
+		foreach (GameObject respawn in GameObject.FindGameObjectsWithTag("Respawn")){
 			respawns.Add(respawn);
 		}
 
-		for (var i = 0; i < playerNum; i++) {
+		for (int i = 0; i < playerNum; i++) {
 
-
-			var index = Random.Range (0, respawns.Count);
+			int index = Random.Range (0, respawns.Count);
 			GameObject spawnedPlayer = (GameObject)Instantiate(Player, respawns[index].transform.position, respawns[index].transform.rotation );
 			MouseLook[] mouselooks = spawnedPlayer.GetComponentsInChildren <MouseLook>();
 			foreach(MouseLook scripts in  mouselooks)
