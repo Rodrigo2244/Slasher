@@ -35,14 +35,16 @@ public class newSlasherAI : MonoBehaviour {
 		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
 
 		foreach(GameObject victim in victims){
-			if(targetVictim == victim){
-				Debug.DrawLine(transform.position,victim.transform.position,Color.red);
-			}else{
-				Debug.DrawLine(transform.position,victim.transform.position,Color.yellow);
-			}
+			if(victim.GetComponent<playerID>().finish == playerID.finishState.neither){
+				if(targetVictim == victim){
+					Debug.DrawLine(transform.position,victim.transform.position,Color.red);
+				}else{
+					Debug.DrawLine(transform.position,victim.transform.position,Color.yellow);
+				}
 
-			if(Vector3.Distance(transform.position,victim.transform.position) <= 1){
-				Kill(victim);
+				if(Vector3.Distance(transform.position,victim.transform.position) <= 1 && victim.GetComponent<playerID>().finish == playerID.finishState.neither){
+					Kill(victim);
+				}
 			}
 		}
 
@@ -74,6 +76,7 @@ public class newSlasherAI : MonoBehaviour {
 	}
 
 	void Kill(GameObject victim){
+		victim.GetComponent<playerID>().finish = playerID.finishState.lose;
 		StopChase();
 		Destroy(victim);	
 		getVictims();
@@ -82,7 +85,8 @@ public class newSlasherAI : MonoBehaviour {
 
 	void Search(){
 		foreach(GameObject victim in victims){
-			if(Vector3.Distance(transform.position,victim.transform.position) <= 5 && victim.GetComponent<flashlightMechanic>().isLightOn){
+			if(Vector3.Distance(transform.position,victim.transform.position) <= 5 && victim.GetComponent<flashlightMechanic>().isLightOn 
+			   && victim.GetComponent<playerID>().finish == playerID.finishState.neither){
 				targetVictim = victim.transform;
 				state = State.Chasing;
 			}
@@ -90,8 +94,10 @@ public class newSlasherAI : MonoBehaviour {
 	}
 
 	void ChaseVictim(){
-		agent.speed = runSpeed;
-		agent.SetDestination(targetVictim.position);
+		if(targetVictim.GetComponent<playerID>().finish == playerID.finishState.neither){
+			agent.speed = runSpeed;
+			agent.SetDestination(targetVictim.position);
+		}
 	}
 
 	void StopChase(){

@@ -30,6 +30,7 @@ public class SpawnPlayers : MonoBehaviour {
 			spawnedPlayer.GetComponent<flashlightMechanic>().PlayerId = i;
 			spawnedPlayer.GetComponent <playerID>().ID = i;
 			spawnedPlayer.GetComponent <FPSInputController>().PlayerId = i;
+			spawnedPlayer.GetComponent <MouseLook>().PlayerId = i;
 			switch(i){
 				case 0: 
 					spawnedPlayer.transform.GetChild(2).GetChild(3).GetComponent<SkinnedMeshRenderer>().material = player1Texture;
