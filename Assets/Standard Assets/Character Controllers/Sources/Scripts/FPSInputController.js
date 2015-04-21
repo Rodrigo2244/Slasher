@@ -9,7 +9,6 @@ public var buttons : GUIStyle;
 function Awake () {
 	motor = GetComponent(CharacterMotor);
 	controller = gameObject.Find("Game Controller");
-
 }
 
 // Update is called once per frame

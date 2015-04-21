@@ -7,17 +7,8 @@ public class playerID : MonoBehaviour {
 	public finishState finish;
 
 	public enum finishState{
+		neither,
 		win,
 		lose
-	}
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
