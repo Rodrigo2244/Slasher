@@ -15,7 +15,7 @@ public class SpawnPlayers : MonoBehaviour {
 	void Start () {
 		if(GameObject.Find("Game Controller") != null){
 			controller = GameObject.Find("Game Controller");
-			playerNum = controller.GetComponent <GameController>().numPlayers;
+			playerNum = controller.GetComponent<GameController>().numPlayers;
 		}
 
 		List<GameObject> respawns = new List<GameObject>();
@@ -28,9 +28,10 @@ public class SpawnPlayers : MonoBehaviour {
 			int index = Random.Range (0, respawns.Count);
 			GameObject spawnedPlayer = (GameObject)Instantiate(Player, respawns[index].transform.position, respawns[index].transform.rotation );
 			spawnedPlayer.GetComponent<flashlightMechanic>().PlayerId = i;
-			spawnedPlayer.GetComponent <playerID>().ID = i;
-			spawnedPlayer.GetComponent <FPSInputController>().PlayerId = i;
-			spawnedPlayer.GetComponent <MouseLook>().PlayerId = i;
+			spawnedPlayer.GetComponent<playerID>().ID = i;
+			spawnedPlayer.GetComponent<FPSInputController>().PlayerId = i;
+			spawnedPlayer.GetComponent<cameraControl>().PlayerId = i;
+			spawnedPlayer.transform.GetChild(1).GetComponent<cameraControl>().PlayerId = i;
 			switch(i){
 				case 0: 
 					spawnedPlayer.transform.GetChild(2).GetChild(3).GetComponent<SkinnedMeshRenderer>().material = player1Texture;

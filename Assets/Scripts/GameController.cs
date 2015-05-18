@@ -6,20 +6,15 @@ public class GameController : MonoBehaviour {
 
 	public int numPlayers;
 	public bool isPaused;
-	public bool isLoaded = false;
 	public bool changedAudio = false;
 
 	public GameObject numDisplay;
 
-	public bool[] hasWon;
-	public bool[] hasDied;
+	public playerID.finishState[] endStates;
 	
 	public AudioSource gameMusic;
 
 	public AudioSource violin;
-	public AudioClip altSound;
-
-	public AudioSource[] screams;
 
 	void Start(){
 		if(GameObject.Find("Player Num Text") != null){
@@ -30,10 +25,11 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Awake(){
-		hasWon = new bool[4];
-		hasDied = new bool[4];
-
 		DontDestroyOnLoad(transform.gameObject);
+	}
+
+	void OnLevelWasLoad(int level){
+
 	}
 
 	public IEnumerator SpawnSlasher(GameObject Slasher){
@@ -43,12 +39,12 @@ public class GameController : MonoBehaviour {
 
 	void Update(){
 
-		if((hasWon[0] == true || hasDied[0] == true) && (hasWon[1] == true || hasDied[1] == true) && (hasWon[2] == true || hasDied[2] == true) && (hasWon[3] == true || hasDied[3] == true)){
-			if(!isLoaded){
-				Application.LoadLevel("Main Menu");
-				isLoaded = true;
-				changedAudio = false;
+		for(int i = 0;i < endStates.Length;i++){
+			if(endStates[i] == playerID.finishState.neither){
+				continue;
 			}
+			Application.LoadLevel("Main Menu");
+			Destroy(gameObject);
 		}
 
 		if(numDisplay != null){
@@ -60,13 +56,12 @@ public class GameController : MonoBehaviour {
 		}
 
 		if(Input.GetButtonDown("Pause") && Application.loadedLevel != 1){
-			Pause();
+			//Pause();
 		}
 
 		if(Application.loadedLevel > 4 && numPlayers == 1 && GameObject.Find("Slasher")!=null && !changedAudio){
 			GameObject.Find("AudioListener").GetComponent<AudioListener>().enabled = false;
 			GameObject.FindGameObjectWithTag("Player").GetComponent<AudioListener>().enabled = true;
-			GameObject.Find("Slasher").transform.GetChild(0).gameObject.GetComponent<AudioSource>().clip = altSound;
 			changedAudio = true;
 			GameObject.Find("Slasher").transform.GetChild(0).gameObject.GetComponent<AudioSource>().Play();
 		}
@@ -103,12 +98,11 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void HasWon(int playerNumber){
-		hasWon[playerNumber] = true;
+		endStates[playerNumber] = playerID.finishState.win;
 	}
 
 	public void HasDied(int playerNumber){
-		violin.Play ();
-		screams[Random.Range (0, screams.Length)].Play();
-		hasDied[playerNumber] = true;
+		violin.Play();
+		endStates[playerNumber] = playerID.finishState.lose;
 	}
 }

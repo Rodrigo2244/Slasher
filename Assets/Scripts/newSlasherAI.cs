@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class newSlasherAI : MonoBehaviour {
  	public NavMeshAgent agent;
-	public GameObject[] waypoints;
-	public GameObject[] victims;
+	public List<GameObject> waypoints;
+	public List<GameObject> victims;
 	public GameObject gameController;
 	public Transform currentWaypoint;
 	public float walkSpeed;
@@ -14,95 +15,104 @@ public class newSlasherAI : MonoBehaviour {
 
 	public enum State{
 		Roaming,
-		Chasing
+		Chasing,
+		Idle
 	};
 	
 	// Use this for initialization
 	void Start(){
+		getVictims();
 		agent = GetComponent<NavMeshAgent>();
 		gameController = GameObject.Find("Game Controller");
-		waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
-		transform.position = waypoints[Random.Range(0,waypoints.Length-1)].transform.position;
-		getVictims();
-		targetVictim = null;
+		foreach(GameObject waypoint in GameObject.FindGameObjectsWithTag("Waypoint")){
+			waypoints.Add(waypoint);
+		}
+		agent.Warp(waypoints[Random.Range(0,waypoints.Count)].transform.position);
 		getWaypoint();
+		targetVictim = null;
 		agent.speed = walkSpeed;
 	}
 
 	// Update is called once per frame
 	void Update(){
-
-		Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
+		//Draw Lines
+		if(state == State.Roaming){
+			Debug.DrawLine(transform.position,currentWaypoint.position,Color.green);
+		}
 
 		foreach(GameObject victim in victims){
-			if(victim.GetComponent<playerID>().finish == playerID.finishState.neither){
-				if(targetVictim == victim){
-					Debug.DrawLine(transform.position,victim.transform.position,Color.red);
-				}else{
+			if(victim != null){
+				if(victim.GetComponent<playerID>().finish == playerID.finishState.neither){
 					Debug.DrawLine(transform.position,victim.transform.position,Color.yellow);
-				}
-
-				if(Vector3.Distance(transform.position,victim.transform.position) <= 1 && victim.GetComponent<playerID>().finish == playerID.finishState.neither){
-					Kill(victim);
 				}
 			}
 		}
 
-		switch(state){
+		//Behavior
+		switch (state){
+			case State.Idle:
+			break;
 			case State.Roaming:
-				if(Vector3.Distance(transform.position,currentWaypoint.position) <= 2){
-					getWaypoint();
-				}
 				Search();
 			break;
 			case State.Chasing:
-				ChaseVictim();
+				if(targetVictim != null){
+					ChaseVictim();
+				} else {
+					state = State.Roaming;
+				}
 			break;
+		}
+
+		//Kill
+		foreach(GameObject victim in victims){
+			if(victim != null && Vector3.Distance(transform.position,victim.transform.position) < 1 && victim.GetComponent<playerID>().finish == playerID.finishState.neither){
+				Kill(victim);
+			}
 		}
 	}
 
 	void getVictims(){
-		victims = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
-		victims = GameObject.FindGameObjectsWithTag("Player");
-		if(victims.Length == 0){
-			getVictims();
+		foreach(GameObject victim in GameObject.FindGameObjectsWithTag("Player")){
+			victims.Add(victim);
 		}
 	}
 
 	//Get next roam location
 	void getWaypoint(){
-		currentWaypoint = waypoints[Random.Range(0,waypoints.Length-1)].transform;
+		currentWaypoint = waypoints[Random.Range(0,waypoints.Count-1)].transform;
 		agent.SetDestination(currentWaypoint.position);
 	}
 
 	void Kill(GameObject victim){
 		victim.GetComponent<playerID>().finish = playerID.finishState.lose;
+		targetVictim = null;
 		StopChase();
-		Destroy(victim);	
-		getVictims();
-		getWaypoint();
 	}
 
 	void Search(){
 		foreach(GameObject victim in victims){
-			if(Vector3.Distance(transform.position,victim.transform.position) <= 5 && victim.GetComponent<flashlightMechanic>().isLightOn 
-			   && victim.GetComponent<playerID>().finish == playerID.finishState.neither){
+			if(Vector3.Distance(transform.position,victim.transform.position) < 5 && victim.GetComponent<playerID>().finish == playerID.finishState.neither){
 				targetVictim = victim.transform;
 				state = State.Chasing;
+				return;
 			}
+		}
+
+		if(Vector3.Distance(transform.position,currentWaypoint.position)<=1){
+			getWaypoint();
 		}
 	}
 
 	void ChaseVictim(){
-		if(targetVictim.GetComponent<playerID>().finish == playerID.finishState.neither){
-			agent.speed = runSpeed;
-			agent.SetDestination(targetVictim.position);
-		}
+		agent.speed = runSpeed;
+		agent.SetDestination(targetVictim.position);
 	}
 
 	void StopChase(){
+		targetVictim = null;
 		state = State.Roaming;
 		agent.speed = walkSpeed;
-		targetVictim = null;
+		getWaypoint();
 	}
 }

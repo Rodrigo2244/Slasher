@@ -17,14 +17,15 @@ public class Menu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		/*if(Input.GetKeyDown(KeyCode.Return) && isBegin){
+		if(Input.GetKeyDown(KeyCode.Return) && isBegin){
 			Application.LoadLevel("LoadingScreen");
-		}*/
+		}
 	}
 
 	IEnumerator Begin(){
 		story.SetActive(true);
 		isBegin = true;
+		gameController.GetComponent<GameController>().endStates = new playerID.finishState[gameController.GetComponent<GameController>().numPlayers];
 		GameObject.Find("GUI").SetActive(false);
 		GameObject.Find("Main Camera").animation.Play("gameStart");
 		GameObject.Find("Game Controller").GetComponent<GameController>().numDisplay = null;
